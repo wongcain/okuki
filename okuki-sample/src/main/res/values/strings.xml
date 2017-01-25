@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Okuki Sample</string>
+    <string name="hello">Hello %1$s!</string>
+    <string name="world">World</string>
+    <string name="label_goto_contacts">Go To Contacts</string>
+    <string name="label_email">Email</string>
+    <string name="label_select">Select</string>
+    <string name="label_goto_third_contact">Go To Third Contact</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+</resources>

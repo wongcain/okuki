@@ -1,0 +1,3 @@
+include ':okuki', ':okuki-rx', ':okuki-toothpick', ':okuki-sample', ':okuki-toothpick-mvp-sample'
+
+rootProject.name = 'okuki-parent'

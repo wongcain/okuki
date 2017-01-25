@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Okuki Toothpick MVP Sample</string>
+    <string name="welcome_msg">Welcome to the demo. \nThe time is %s. \nPlease select an option from the top menu.</string>
+    <string name="kittens">Kittens</string>
+    <string name="chuck_norris">Chuck Norris</string>
+    <string name="next">Next</string>
+    <string name="prev">Previous</string>
+</resources>

@@ -1,0 +1,58 @@
+package okuki.sample.chucknorris;
+
+import android.content.Context;
+import android.text.Html;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import okuki.sample.R;
+
+public class ChuckNorrisView extends RelativeLayout implements ChuckNorrisPresenter.Vu {
+
+    private final ChuckNorrisPresenter presenter = new ChuckNorrisPresenter();
+
+    @BindView(R.id.cn_quote)
+    TextView quote;
+
+    public ChuckNorrisView(Context context) {
+        super(context);
+        init(context);
+    }
+
+    public ChuckNorrisView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
+
+    public ChuckNorrisView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context);
+    }
+
+    private void init(Context context) {
+        LayoutInflater.from(context).inflate(R.layout.view_chucknorris, this, true);
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        presenter.attachVu(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        presenter.detachVu();
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void setJokeHtml(String jokeHtml) {
+        quote.setText(Html.fromHtml(jokeHtml));
+    }
+
+}

@@ -1,0 +1,39 @@
+apply plugin: 'java'
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+ext {
+    bintrayRepo = 'okuki'
+    bintrayName = 'okuki'
+
+    publishedGroupId = 'com.cainwong.okuki'
+    libraryName = 'Okuki'
+    artifact = 'okuki'
+
+    libraryDescription = 'A simple, hierarchical navigation bus and back-stack for Android and Java'
+
+    siteUrl = 'https://github.com/wongcain/okuki'
+    gitUrl = 'https://github.com/wongcain/okuki.git'
+
+    libraryVersion = '0.1.0'
+
+    developerId = 'wongcain'
+    developerName = 'Cain Wong'
+    developerEmail = 'cainwong@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:3.6.1'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+
+}
+
+
+apply from: '../install.gradle'
+apply from: '../bintray.gradle'

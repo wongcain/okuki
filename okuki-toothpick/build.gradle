@@ -1,0 +1,37 @@
+apply plugin: 'java'
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+ext {
+    bintrayRepo = 'okuki'
+    bintrayName = 'okuki-toothpick'
+
+    publishedGroupId = 'com.cainwong.okuki'
+    libraryName = 'Okuki Toothpick'
+    artifact = 'okuki-toothpick'
+
+    libraryDescription = 'Toothpick DI integration for Okuki'
+
+    siteUrl = 'https://github.com/wongcain/okuki'
+    gitUrl = 'https://github.com/wongcain/okuki.git'
+
+    libraryVersion = '0.1.0'
+
+    developerId = 'wongcain'
+    developerName = 'Cain Wong'
+    developerEmail = 'cainwong@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+dependencies {
+    compile project(':okuki')
+    compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.2'
+    compile 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.2'
+}
+
+apply from: '../install.gradle'
+apply from: '../bintray.gradle'
