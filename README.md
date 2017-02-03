@@ -24,16 +24,16 @@ repositories {
 ...
 
 dependencies {
-    compile 'com.cainwong.okuki:okuki:0.1.0'
+    compile 'com.cainwong.okuki:okuki:0.1.1'
 
     // for RxBindings
     compile 'io.reactivex:rxjava:1.2.5'
-    compile 'com.cainwong.okuki:okuki-rx:0.1.0'
+    compile 'com.cainwong.okuki:okuki-rx:0.1.1'
 
     // for Toothpick integration
     compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.2'
     compile 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.2'
-    compile 'com.cainwong.okuki:okuki-toothpick:0.1.0'
+    compile 'com.cainwong.okuki:okuki-toothpick:0.1.1'
 }
 ```
 
