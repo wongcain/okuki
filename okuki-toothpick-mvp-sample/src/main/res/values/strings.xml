@@ -5,4 +5,5 @@
     <string name="chuck_norris">Chuck Norris</string>
     <string name="next">Next</string>
     <string name="prev">Previous</string>
+    <string name="loading_awesome">Loading awesome…</string>
 </resources>

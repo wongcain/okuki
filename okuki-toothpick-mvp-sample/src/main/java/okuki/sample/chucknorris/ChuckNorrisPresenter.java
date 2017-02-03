@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import okuki.sample.chucknorris.icndb.IcndbDataManager;
 import okuki.sample.common.mvp.PlacePresenter;
 import okuki.sample.common.rx.Errors;
 import toothpick.config.Module;
@@ -15,17 +14,29 @@ import toothpick.config.Module;
 public class ChuckNorrisPresenter extends PlacePresenter<ChuckNorrisPlace, ChuckNorrisPresenter.Vu> {
 
     @Inject
-    IcndbDataManager icndbDataManager;
+    ChuckNorrisDataManager dataManager;
 
     @Override
     protected void onVuAttached() {
         super.onVuAttached();
         addSubscriptions(
-                icndbDataManager.getJoke()
-                        .subscribe(joke -> getVu().setJokeHtml(joke),
+                dataManager.onLoadingStatus()
+                        .subscribe(
+                                isLoading -> getVu().setLoading(isLoading),
+                                Errors.log()
+                        ),
+                dataManager.onListUpdated()
+                        .filter(aVoid -> dataManager.getNumResults() > 0)
+                        .subscribe(
+                                ignore -> getVu().setJokeHtml(dataManager.getResult(0).text),
                                 Errors.log()
                         )
         );
+        dataManager.load();
+    }
+
+    void reload(){
+        dataManager.load();
     }
 
     @NonNull
@@ -36,6 +47,8 @@ public class ChuckNorrisPresenter extends PlacePresenter<ChuckNorrisPlace, Chuck
 
     interface Vu {
         void setJokeHtml(String jokeHtml);
+
+        void setLoading(boolean isLoading);
     }
 
 }

@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding.view.RxView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okuki.sample.R;
+import okuki.sample.common.rx.Errors;
 
 public class ChuckNorrisView extends RelativeLayout implements ChuckNorrisPresenter.Vu {
 
@@ -42,6 +45,10 @@ public class ChuckNorrisView extends RelativeLayout implements ChuckNorrisPresen
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         presenter.attachVu(this);
+        RxView.clicks(this).subscribe(
+                aVoid -> presenter.reload(),
+                Errors.log()
+        );
     }
 
     @Override
@@ -53,6 +60,11 @@ public class ChuckNorrisView extends RelativeLayout implements ChuckNorrisPresen
     @Override
     public void setJokeHtml(String jokeHtml) {
         quote.setText(Html.fromHtml(jokeHtml));
+    }
+
+    @Override
+    public void setLoading(boolean isLoading) {
+        if (isLoading) quote.setText(R.string.loading_awesome);
     }
 
 }

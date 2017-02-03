@@ -91,17 +91,17 @@ public class KittensView extends RecyclerView implements KittensPresenter.Vu {
         public void onBindViewHolder(KittenViewHolder holder, int position) {
             int size = getResources().getDisplayMetrics().widthPixels / 2;
             holder.kittenImg.setLayoutParams(new ViewGroup.LayoutParams(size, size));
-            Glide.with(getContext()).load(presenter.getKittenImgUrl(position)).asGif()
+            Glide.with(getContext()).load(presenter.getItemImage(position)).asGif()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE).centerCrop().into(holder.kittenImg);
             RxView.clicks(holder.kittenImg).subscribe(
-                    click -> presenter.handleKittenSelected(position),
+                    click -> presenter.handleItemSelected(position),
                     Errors.log()
             );
         }
 
         @Override
         public int getItemCount() {
-            return presenter.getNumKittens();
+            return presenter.getNumItems();
         }
     }
 }

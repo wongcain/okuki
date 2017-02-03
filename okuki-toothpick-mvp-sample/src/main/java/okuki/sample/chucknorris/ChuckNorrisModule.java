@@ -5,8 +5,6 @@ import com.google.gson.Gson;
 import javax.inject.Inject;
 
 import okhttp3.OkHttpClient;
-import okuki.sample.chucknorris.ChuckNorrisPlace;
-import okuki.sample.chucknorris.icndb.IcndbDataManager;
 import okuki.toothpick.PlaceModule;
 
 public class ChuckNorrisModule extends PlaceModule<ChuckNorrisPlace> {
@@ -19,7 +17,9 @@ public class ChuckNorrisModule extends PlaceModule<ChuckNorrisPlace> {
 
     public ChuckNorrisModule() {
         super();
-        bind(IcndbDataManager.class).toInstance(new IcndbDataManager(client, gson));
+        ChuckNorrisDataManager dm = new ChuckNorrisDataManager(client, gson);
+        dm.setPageSize(1);
+        bind(ChuckNorrisDataManager.class).toInstance(dm);
     }
 
 }

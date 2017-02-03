@@ -14,7 +14,7 @@ public class RxOkuki {
         return Observable.create(new OnGlobalPlaceOnSubscribe(okuki));
     }
 
-    public static Observable<Place> onPlace(Okuki okuki, Class<? extends Place> clazz) {
+    public static <T extends Place> Observable<T> onPlace(Okuki okuki, Class<T> clazz) {
         return Observable.create(new OnPlaceOnSubscribe(okuki, clazz));
     }
 

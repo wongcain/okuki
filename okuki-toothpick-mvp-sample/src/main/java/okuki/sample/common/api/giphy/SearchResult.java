@@ -1,4 +1,4 @@
-package okuki.sample.kittens.giphy;
+package okuki.sample.common.api.giphy;
 
 import android.support.annotation.Nullable;
 
