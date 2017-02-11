@@ -60,13 +60,14 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
     // di
-    compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.2'
-    compile 'com.github.stephanenicolas.toothpick:smoothie:1.0.2'
-    annotationProcessor 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.2'
+    compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.5'
+    compile 'com.github.stephanenicolas.toothpick:smoothie:1.0.5'
+    annotationProcessor 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.5'
 
     // rx
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.jakewharton.rxrelay:rxrelay:1.2.0'
     compile 'com.jakewharton.rxbinding:rxbinding:1.0.0'
     compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:1.0.0'
     compile 'nl.littlerobots.rxlint:rxlint:1.0'

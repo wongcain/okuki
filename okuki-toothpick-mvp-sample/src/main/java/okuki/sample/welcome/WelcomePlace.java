@@ -1,6 +1,11 @@
 package okuki.sample.welcome;
 
-import okuki.SimplePlace;
+import java.util.Date;
 
-public class WelcomePlace extends SimplePlace {
+import okuki.Place;
+
+public class WelcomePlace extends Place<Date> {
+    public WelcomePlace(Date data) {
+        super(data);
+    }
 }

@@ -81,6 +81,7 @@ public class ContactsFragment extends Fragment {
                 setSpinnerVisible(true);
             }
         };
+        okuki.addPlaceListener(contactsPlaceListener);
         contactDetailsBranchListener = new BranchListener<ContactDetailsPlace>() {
             @Override
             public void onPlace(Place place) {

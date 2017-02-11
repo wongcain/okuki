@@ -1,26 +1,31 @@
 package okuki.sample.welcome;
 
-import android.content.res.Resources;
-
 import java.util.Date;
 
 import javax.inject.Inject;
 
-import okuki.sample.R;
+import okuki.Okuki;
+import okuki.rx.RxOkuki;
 import okuki.sample.common.mvp.PlacePresenter;
+import okuki.sample.common.rx.Errors;
 
 public class WelcomePresenter extends PlacePresenter<WelcomePlace, WelcomePresenter.Vu> {
 
     @Inject
-    Resources resources;
+    Okuki okuki;
 
     @Override
     protected void onVuAttached() {
-        getVu().setWelcomeMessage(resources.getString(R.string.welcome_msg, new Date()));
+        addSubscriptions(
+                RxOkuki.onPlace(okuki, WelcomePlace.class).subscribe(
+                        place -> getVu().setStartedTime(place.getData()),
+                        Errors.log()
+                )
+        );
     }
 
     interface Vu {
-        void setWelcomeMessage(String msg);
+        void setStartedTime(Date startedTime);
     }
 
 }

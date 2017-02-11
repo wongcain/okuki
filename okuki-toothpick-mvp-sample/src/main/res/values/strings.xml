@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Okuki Toothpick MVP Sample</string>
-    <string name="welcome_msg">Welcome to the demo. \nThe time is %s. \nPlease select an option from the top menu.</string>
+    <string name="welcome_msg">Welcome to the demo.</string>
+    <string name="menu_label">Please select an option from the menu. ↑</string>
+    <string name="started_at">App launched at %s</string>
     <string name="kittens">Kittens</string>
     <string name="chuck_norris">Chuck Norris</string>
     <string name="next">Next</string>

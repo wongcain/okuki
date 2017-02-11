@@ -1,12 +1,14 @@
 package okuki.sample.contacts.edit;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import okuki.HistoryAction;
 import okuki.Okuki;
@@ -22,7 +24,12 @@ public class ContactEditView extends LinearLayout {
 
     private PlaceListener<ContactEditPlace> contactEditPlaceListener;
 
-    private Contact contact;
+    private TextView nameView;
+    private TextView emailView;
+    private Button saveBtn;
+    private Button cancelBtn;
+
+    private static Contact editContact;
 
     public ContactEditView(Context context) {
         super(context);
@@ -47,17 +54,15 @@ public class ContactEditView extends LinearLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
-        final TextView nameView = (TextView) findViewById(R.id.contact_edit_name);
-        final TextView emailView = (TextView) findViewById(R.id.contact_edit_email);
-        final Button saveBtn = (Button) findViewById(R.id.contact_edit_save_btn);
-        final Button cancelBtn = (Button) findViewById(R.id.contact_edit_cancel_btn);
+        nameView = (TextView) findViewById(R.id.contact_edit_name);
+        emailView = (TextView) findViewById(R.id.contact_edit_email);
+        saveBtn = (Button) findViewById(R.id.contact_edit_save_btn);
+        cancelBtn = (Button) findViewById(R.id.contact_edit_cancel_btn);
 
         contactEditPlaceListener = new PlaceListener<ContactEditPlace>() {
             @Override
             public void onPlace(ContactEditPlace place) {
-                contact = ContactsDataManager.getContact(place.getData());
-                nameView.setText(contact.getName());
-                emailView.setText(contact.getEmail());
+                load(place.getData());
             }
         };
         okuki.addPlaceListener(contactEditPlaceListener);
@@ -65,23 +70,60 @@ public class ContactEditView extends LinearLayout {
         saveBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                contact.setName((nameView.getText().toString()));
-                contact.setEmail(emailView.getText().toString());
-                ContactsDataManager.saveContact(contact);
-                okuki.gotoPlace(new ContactDetailsPlace(contact.getId()), HistoryAction.TRY_BACK_TO_SAME);
+                save();
             }
         });
 
         cancelBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                okuki.goBack();
+                goBack();
             }
         });
     }
 
+    private void load(int contactId) {
+        Contact contact = ContactsDataManager.getContact(contactId);
+        if (contact != null) {
+            if (editContact == null || editContact.getId() != contact.getId()) {
+                editContact = contact.clone();
+            }
+            nameView.setText(editContact.getName());
+            emailView.setText(editContact.getEmail());
+        } else {
+            Toast.makeText(getContext(), R.string.error, Toast.LENGTH_SHORT).show();
+            goBack();
+        }
+    }
+
+    private void save() {
+        if (editContact != null) {
+            updateEditCopy();
+            ContactDetailsPlace detailsPlace = new ContactDetailsPlace(editContact.getId());
+            ContactsDataManager.saveContact(editContact);
+            editContact = null;
+            okuki.gotoPlace(detailsPlace, HistoryAction.TRY_BACK_TO_SAME);
+        } else {
+            Toast.makeText(getContext(), R.string.error, Toast.LENGTH_SHORT).show();
+            goBack();
+        }
+    }
+
+    private void goBack() {
+        editContact = null;
+        okuki.goBack();
+    }
+
+    private void updateEditCopy() {
+        if (editContact != null) {
+            editContact.setName((nameView.getText().toString()));
+            editContact.setEmail(emailView.getText().toString());
+        }
+    }
+
     @Override
     protected void onDetachedFromWindow() {
+        updateEditCopy();
         okuki.removePlaceListener(contactEditPlaceListener);
         super.onDetachedFromWindow();
     }

@@ -1,6 +1,7 @@
 package okuki.sample;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         helloBranchListener = new BranchListener<HelloPlace>() {
@@ -45,7 +56,19 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         okuki.addBranchListener(contactsBranchListener);
-        okuki.gotoPlace(new HelloPlace(getString(R.string.world)));
+        if (okuki.getCurrentPlace() == null) {
+            okuki.gotoPlace(new HelloPlace(getString(R.string.world)));
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -53,6 +76,16 @@ public class MainActivity extends AppCompatActivity {
         okuki.removeBranchListener(helloBranchListener);
         okuki.removeBranchListener(contactsBranchListener);
         super.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -67,7 +100,9 @@ public class MainActivity extends AppCompatActivity {
         if (f == null) {
             f = HelloFragment.newInstance();
         }
-        fm.beginTransaction().replace(R.id.main_container, f, HelloFragment.TAG).commit();
+        if (!f.isAdded()) {
+            fm.beginTransaction().replace(R.id.main_container, f, HelloFragment.TAG).commit();
+        }
     }
 
     private void gotoContacts() {
@@ -75,7 +110,9 @@ public class MainActivity extends AppCompatActivity {
         if (f == null) {
             f = ContactsFragment.newInstance();
         }
-        fm.beginTransaction().replace(R.id.main_container, f, ContactsFragment.TAG).commit();
+        if (!f.isAdded()) {
+            fm.beginTransaction().replace(R.id.main_container, f, ContactsFragment.TAG).commit();
+        }
     }
 
 }

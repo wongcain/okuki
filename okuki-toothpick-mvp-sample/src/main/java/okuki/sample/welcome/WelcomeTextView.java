@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okuki.sample.R;
@@ -14,8 +16,8 @@ public class WelcomeTextView extends FrameLayout implements WelcomePresenter.Vu 
 
     private final WelcomePresenter presenter = new WelcomePresenter();
 
-    @BindView(R.id.welcome_text)
-    TextView welcomeText;
+    @BindView(R.id.welcome_started)
+    TextView welcomeStarted;
 
     public WelcomeTextView(Context context) {
         super(context);
@@ -50,7 +52,8 @@ public class WelcomeTextView extends FrameLayout implements WelcomePresenter.Vu 
     }
 
     @Override
-    public void setWelcomeMessage(String msg) {
-        welcomeText.setText(msg);
+    public void setStartedTime(Date startedTime) {
+        welcomeStarted.setText(getResources().getString(R.string.started_at, startedTime));
     }
+
 }

@@ -2,6 +2,8 @@ package okuki.sample.common.network;
 
 import android.util.Range;
 
+import com.jakewharton.rxrelay.PublishRelay;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,7 +12,6 @@ import okuki.sample.common.rx.Errors;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import rx.subjects.PublishSubject;
 
 public abstract class DataManager<T> {
 
@@ -18,9 +19,9 @@ public abstract class DataManager<T> {
 
     private final List<T> results = new ArrayList<>();
     private final AtomicBoolean loading = new AtomicBoolean(false);
-    private final PublishSubject<Boolean> loadingStatus = PublishSubject.create();
-    private final PublishSubject<Range<Integer>> rangeInserted = PublishSubject.create();
-    private final PublishSubject<Void> listUpdated = PublishSubject.create();
+    private final PublishRelay<Boolean> loadingStatus = PublishRelay.create();
+    private final PublishRelay<Range<Integer>> rangeInserted = PublishRelay.create();
+    private final PublishRelay<Void> listUpdated = PublishRelay.create();
     private int pageSize = DEFAULT_PAGE_SIZE;
 
     public Observable<Boolean> onLoadingStatus() {
@@ -56,9 +57,9 @@ public abstract class DataManager<T> {
                                     int end = start + list.size();
                                     results.addAll(list);
                                     if (start > 0) {
-                                        rangeInserted.onNext(new Range<>(start, end));
+                                        rangeInserted.call(new Range<>(start, end));
                                     } else {
-                                        listUpdated.onNext(null);
+                                        listUpdated.call(null);
                                     }
                                 }
                                 setLoading(false);
@@ -69,7 +70,7 @@ public abstract class DataManager<T> {
 
     private void setLoading(boolean isLoading) {
         loading.set(isLoading);
-        loadingStatus.onNext(isLoading);
+        loadingStatus.call(isLoading);
     }
 
     protected abstract Observable<List<T>> loadData(int limit, int offset);

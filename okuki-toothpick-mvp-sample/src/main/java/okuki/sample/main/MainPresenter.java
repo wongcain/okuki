@@ -1,5 +1,7 @@
 package okuki.sample.main;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import okuki.Okuki;
@@ -54,7 +56,7 @@ public class MainPresenter extends Presenter<MainPresenter.Vu> {
 
                 getVu().onNavHomeClick().subscribe(aVoid -> handleBack(), Errors.log())
         );
-        if (okuki.getCurrentPlace() == null) okuki.gotoPlace(new WelcomePlace());
+        if (okuki.getCurrentPlace() == null) okuki.gotoPlace(new WelcomePlace(new Date()));
     }
 
     boolean handleBack() {

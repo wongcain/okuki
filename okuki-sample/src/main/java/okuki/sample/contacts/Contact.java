@@ -1,6 +1,6 @@
 package okuki.sample.contacts;
 
-public class Contact implements Comparable<Contact> {
+public class Contact implements Comparable<Contact>, Cloneable {
 
     private int id;
     private String name;
@@ -48,4 +48,9 @@ public class Contact implements Comparable<Contact> {
     public int compareTo(Contact contact) {
         return id - contact.id;
     }
+
+    public Contact clone() {
+        return new Contact(id, name, email);
+    }
+
 }
