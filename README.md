@@ -140,7 +140,7 @@ okuki.removeGlobalListener(logListener);
 
 ```
 
-## Error Handling
+### Error Handling
 In addition to `onPlace(Place)` each of the Listeners also implements an `onError(Exception e)` method.
 The default behavior of this method is to throw a Runtime exception. It is recommended that you
 override this behavior in your Listener implementations. If using `RxOkuki`, exceptions are delegated
