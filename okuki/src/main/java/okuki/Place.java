@@ -25,7 +25,7 @@ public abstract class Place<T> {
 
     @Override
     public boolean equals(Object obj) {
-        if (getClass().equals(obj.getClass())) {
+        if (obj != null && getClass().equals(obj.getClass())) {
             Place p = (Place) (obj);
             if (data == null) {
                 return p.getData() == null;
