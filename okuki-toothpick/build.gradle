@@ -29,8 +29,8 @@ ext {
 
 dependencies {
     compile project(':okuki')
-    compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.2'
-    compile 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.2'
+    compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.5'
+    compile 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.5'
 }
 
 apply from: '../install.gradle'
