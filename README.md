@@ -24,16 +24,16 @@ repositories {
 ...
 
 dependencies {
-    compile 'com.cainwong.okuki:okuki:0.1.1'
+    compile 'com.cainwong.okuki:okuki:0.1.2'
 
     // for RxBindings
     compile 'io.reactivex:rxjava:1.2.5'
-    compile 'com.cainwong.okuki:okuki-rx:0.1.1'
+    compile 'com.cainwong.okuki:okuki-rx:0.1.2'
 
     // for Toothpick integration
-    compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.2'
-    compile 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.2'
-    compile 'com.cainwong.okuki:okuki-toothpick:0.1.1'
+    compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.5'
+    compile 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.5'
+    compile 'com.cainwong.okuki:okuki-toothpick:0.1.2'
 }
 ```
 
@@ -139,6 +139,12 @@ okuki.removeBranchListener(contactsBranchListener);
 okuki.removeGlobalListener(logListener);
 
 ```
+
+## Error Handling
+In addition to `onPlace(Place)` each of the Listeners also implements an `onError(Exception e)` method.
+The default behavior of this method is to throw a Runtime exception. It is recommended that you
+override this behavior in your Listener implementations. If using `RxOkuki`, exceptions are delegated
+through the standard Rx propagation.
 
 ### Sticky Behavior
 A very important aspect of Okuki's behavior is that the most recently requested Place is automatically
