@@ -4,12 +4,12 @@ import javax.inject.Inject;
 
 import okuki.Okuki;
 import okuki.rx.RxOkuki;
-import okuki.sample.common.mvp.PlacePresenter;
+import okuki.sample.common.api.giphy.SearchResult;
+import okuki.sample.common.mvp.Presenter;
 import okuki.sample.common.rx.Errors;
 import okuki.sample.kittens.KittensDataManager;
-import okuki.sample.common.api.giphy.SearchResult;
 
-public class KittensDetailPresenter extends PlacePresenter<KittensDetailPlace, KittensDetailPresenter.Vu> {
+public class KittensDetailPresenter extends Presenter<KittensDetailPresenter.Vu> {
 
     @Inject
     Okuki okuki;

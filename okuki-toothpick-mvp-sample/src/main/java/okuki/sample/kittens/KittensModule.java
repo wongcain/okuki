@@ -1,22 +1,12 @@
 package okuki.sample.kittens;
 
-import com.google.gson.Gson;
-
-import javax.inject.Inject;
-
-import okhttp3.OkHttpClient;
-import okuki.toothpick.PlaceModule;
+import toothpick.config.Module;
 
 
-public class KittensModule extends PlaceModule<KittensPlace> {
-
-    @Inject
-    OkHttpClient client;
-
-    @Inject
-    Gson gson;
+public class KittensModule extends Module {
 
     public KittensModule() {
-        bind(KittensDataManager.class).toInstance(new KittensDataManager(client, gson));
+        bind(KittensDataManager.class).singletonInScope();
     }
+
 }

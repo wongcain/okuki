@@ -1,22 +1,16 @@
 package okuki.sample.kittens;
 
-import android.support.annotation.NonNull;
-
-import java.util.Collections;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import okuki.Okuki;
 import okuki.rx.RxOkuki;
 import okuki.sample.common.api.giphy.SearchResult;
-import okuki.sample.common.mvp.PlacePresenter;
+import okuki.sample.common.mvp.Presenter;
 import okuki.sample.common.rx.Errors;
 import okuki.sample.kittens.detail.KittensDetailPlace;
 import timber.log.Timber;
-import toothpick.config.Module;
 
-class KittensPresenter extends PlacePresenter<KittensPlace, KittensPresenter.Vu> {
+class KittensPresenter extends Presenter<KittensPresenter.Vu> {
 
     @Inject
     Okuki okuki;
@@ -44,7 +38,9 @@ class KittensPresenter extends PlacePresenter<KittensPlace, KittensPresenter.Vu>
                         Errors.log()
                 )
         );
-        dataManager.load();
+        if (dataManager.getNumResults() == 0) {
+            dataManager.load();
+        }
     }
 
     @Override
@@ -69,12 +65,6 @@ class KittensPresenter extends PlacePresenter<KittensPlace, KittensPresenter.Vu>
 
     void handleItemSelected(int index) {
         okuki.gotoPlace(new KittensDetailPlace(index));
-    }
-
-    @NonNull
-    @Override
-    protected List<Module> getModules() {
-        return Collections.singletonList(new KittensModule());
     }
 
     interface Vu {

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import okhttp3.OkHttpClient;
 import okuki.sample.common.api.icndb.IcndbApi;
 import okuki.sample.common.api.icndb.IcndbResult;
@@ -18,11 +20,13 @@ public class ChuckNorrisDataManager extends DataManager<IcndbResult.Joke> {
 
     private final IcndbApi icndbApi;
 
+    @Inject
     public ChuckNorrisDataManager(OkHttpClient client, Gson gson) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(IcndbApi.BASE_URL).client(client)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson)).build();
         icndbApi = retrofit.create(IcndbApi.class);
+        setPageSize(1);
 
     }
 

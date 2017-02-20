@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import okhttp3.OkHttpClient;
 import okuki.sample.common.api.giphy.GiphyApi;
 import okuki.sample.common.api.giphy.SearchResult;
@@ -19,6 +21,7 @@ public class KittensDataManager extends DataManager<SearchResult.Giphy> {
     private static final String QUERY = "kittens";
     private final GiphyApi giphyApi;
 
+    @Inject
     public KittensDataManager(OkHttpClient client, Gson gson) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(GiphyApi.BASE_URL).client(client)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

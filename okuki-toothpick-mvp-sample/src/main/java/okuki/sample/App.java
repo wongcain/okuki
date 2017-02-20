@@ -5,45 +5,34 @@ import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 
-import javax.inject.Inject;
-
 import okuki.Okuki;
 import okuki.sample.common.network.NetworkModule;
 import okuki.sample.common.okuki.OkukiStateRestorer;
 import okuki.toothpick.PlaceScoper;
 import timber.log.Timber;
-import toothpick.Toothpick;
 import toothpick.smoothie.module.SmoothieApplicationModule;
 
 public class App extends Application {
 
-    @Inject
-    Okuki okuki;
-
-    @Inject
-    OkukiStateRestorer mOkukiStateRestorer;
+    private static Okuki okuki;
+    private static PlaceScoper placeScoper;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initLogging();
-        injectThis();
-        initOkukiSaveState();
-    }
 
-    private void initLogging() {
+        okuki = Okuki.getDefault();
+        placeScoper = new PlaceScoper(okuki, new AppModule(), new NetworkModule());
+
         Timber.plant((BuildConfig.DEBUG) ? new Timber.DebugTree() : new CrashReportingTree());
-    }
 
-    private void injectThis() {
-        Toothpick.inject(this, PlaceScoper.openRootScope(new AppModule(this), new NetworkModule()));
-    }
-
-    private void initOkukiSaveState() {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+
+            private final OkukiStateRestorer okukiStateRestorer = new OkukiStateRestorer(Okuki.getDefault());
+
             @Override
             public void onActivityCreated(Activity activity, Bundle bundle) {
-                mOkukiStateRestorer.onRestore(bundle);
+                okukiStateRestorer.onRestore(bundle);
             }
 
             @Override
@@ -68,7 +57,7 @@ public class App extends Application {
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-                mOkukiStateRestorer.onSave(bundle);
+                okukiStateRestorer.onSave(bundle);
             }
 
             @Override
@@ -76,14 +65,14 @@ public class App extends Application {
 
             }
         });
+
     }
 
     private class AppModule extends SmoothieApplicationModule {
 
-        AppModule(Application app) {
-            super(app);
-            bind(Okuki.class).toInstance(Okuki.getDefault());
-            bind(OkukiStateRestorer.class).singletonInScope();
+        AppModule() {
+            super(App.this);
+            bind(Okuki.class).toInstance(okuki);
         }
 
     }
@@ -108,4 +97,13 @@ public class App extends Application {
         }
 
     }
+
+    public static void inject(Object obj) {
+        try {
+            placeScoper.inject(obj);
+        } catch (Throwable t) {
+            Timber.e(t, "Error injecting %s", obj);
+        }
+    }
+
 }

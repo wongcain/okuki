@@ -6,10 +6,10 @@ import javax.inject.Inject;
 
 import okuki.Okuki;
 import okuki.rx.RxOkuki;
-import okuki.sample.common.mvp.PlacePresenter;
+import okuki.sample.common.mvp.Presenter;
 import okuki.sample.common.rx.Errors;
 
-public class WelcomePresenter extends PlacePresenter<WelcomePlace, WelcomePresenter.Vu> {
+public class WelcomePresenter extends Presenter<WelcomePresenter.Vu> {
 
     @Inject
     Okuki okuki;

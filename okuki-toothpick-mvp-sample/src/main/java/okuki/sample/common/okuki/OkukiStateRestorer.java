@@ -9,8 +9,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import okuki.HistoryAction;
 import okuki.Okuki;
 import okuki.Place;
@@ -21,31 +19,11 @@ public class OkukiStateRestorer {
 
     private static final String KEY = OkukiState.class.getName();
 
-    @Inject
-    Gson gson;
+    private final Okuki okuki;
+    private final Gson gson = new Gson();
 
-    @Inject
-    Okuki okuki;
-
-
-    class SerializedPlace {
-        String name;
-        String data;
-
-        SerializedPlace(String name, String data) {
-            this.name = name;
-            this.data = data;
-        }
-    }
-
-    class OkukiState {
-        SerializedPlace currentPlace;
-        List<SerializedPlace> history = new ArrayList<>();
-
-        OkukiState(SerializedPlace currentPlace, List<SerializedPlace> history) {
-            this.currentPlace = currentPlace;
-            this.history = history;
-        }
+    public OkukiStateRestorer(Okuki okuki) {
+        this.okuki = okuki;
     }
 
     public void onSave(@NonNull Bundle bundle) {
@@ -97,4 +75,26 @@ public class OkukiStateRestorer {
             return gson.fromJson(serializedPlace.data, placeClass);
         }
     }
+
+
+    class SerializedPlace {
+        String name;
+        String data;
+
+        SerializedPlace(String name, String data) {
+            this.name = name;
+            this.data = data;
+        }
+    }
+
+    class OkukiState {
+        SerializedPlace currentPlace;
+        List<SerializedPlace> history = new ArrayList<>();
+
+        OkukiState(SerializedPlace currentPlace, List<SerializedPlace> history) {
+            this.currentPlace = currentPlace;
+            this.history = history;
+        }
+    }
+
 }

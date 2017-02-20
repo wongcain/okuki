@@ -12,6 +12,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Retention(RUNTIME)
 @Target({ TYPE })
-public @interface PlaceScope {
+public @interface ScopeConfig {
     Class<? extends Module>[] modules() default {};
 }
