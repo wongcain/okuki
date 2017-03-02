@@ -7,6 +7,8 @@ import java.util.Map;
 
 public abstract class Place<T> {
 
+    private volatile int hashCode = 0;
+
     private static final Map<Class<? extends Place>, List<Class<? extends Place>>> hierarchies = new HashMap<>();
 
     private final T data;
@@ -37,6 +39,16 @@ public abstract class Place<T> {
         }
     }
 
+    @Override
+    public int hashCode() {
+        if (hashCode == 0) {
+            int result = 17;
+            result = 37 * result + (data == null ? 0 : data.hashCode());
+            hashCode = result;
+        }
+        return hashCode;
+    }
+
     public static List<Class<? extends Place>> getHierarchyForPlace(Class<? extends Place> placeClass) {
         if (!hierarchies.containsKey(placeClass)) {
             LinkedList<Class<? extends Place>> hierarchList = new LinkedList<>();
@@ -54,4 +66,5 @@ public abstract class Place<T> {
         }
         return hierarchies.get(placeClass);
     }
+
 }

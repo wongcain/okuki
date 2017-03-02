@@ -46,6 +46,7 @@ dependencies {
     compile project(':okuki')
     compile project(':okuki-rx')
     compile project(':okuki-toothpick')
+    compile project(':okuki-android')
 
     // support libs
     compile 'com.android.support:appcompat-v7:25.1.0'
