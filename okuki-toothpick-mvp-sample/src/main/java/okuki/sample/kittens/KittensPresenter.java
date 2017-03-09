@@ -8,7 +8,6 @@ import okuki.sample.common.api.giphy.SearchResult;
 import okuki.sample.common.mvp.Presenter;
 import okuki.sample.common.rx.Errors;
 import okuki.sample.kittens.detail.KittensDetailPlace;
-import timber.log.Timber;
 
 class KittensPresenter extends Presenter<KittensPresenter.Vu> {
 
@@ -24,7 +23,6 @@ class KittensPresenter extends Presenter<KittensPresenter.Vu> {
         addSubscriptions(
                 RxOkuki.onBranch(okuki, KittensDetailPlace.class).subscribe(
                         place -> {
-                            Timber.d("test");
                             getVu().loadKittensDetails();
                         },
                         Errors.log()

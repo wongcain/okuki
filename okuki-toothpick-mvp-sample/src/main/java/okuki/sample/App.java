@@ -6,29 +6,58 @@ import android.os.Bundle;
 import android.util.Log;
 
 import okuki.Okuki;
+import okuki.android.OkukiParceler;
 import okuki.android.OkukiState;
+import okuki.sample.common.lifecycle.RxActivityLifecycleCallbacks;
 import okuki.sample.common.network.NetworkModule;
 import okuki.toothpick.PlaceScoper;
+import rx.Observable;
 import timber.log.Timber;
 import toothpick.smoothie.module.SmoothieApplicationModule;
 
 public class App extends Application {
 
-    private static PlaceScoper placeScoper;
+    private static App APP_INSTANCE;
+    private static final String OKUKI_STATE_KEY = OkukiState.class.getName();
 
     private Okuki okuki;
+    private RxActivityLifecycleCallbacks lifecycle;
+    private PlaceScoper placeScoper;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        okuki = Okuki.getDefault();
-        placeScoper = new PlaceScoper(okuki, new AppModule(), new NetworkModule());
+        APP_INSTANCE = this;
 
         Timber.plant((BuildConfig.DEBUG) ? new Timber.DebugTree() : new CrashReportingTree());
 
-        registerActivityLifecycleCallbacks(new OkukiStateRestorer());
+        okuki = Okuki.getDefault();
+        lifecycle = new RxActivityLifecycleCallbacks(this){
+            @Override
+            public void onActivityCreated(Activity activity, Bundle bundle) {
+                if ((okuki.getCurrentPlace() == null) && (bundle != null) && bundle.containsKey(OKUKI_STATE_KEY)) {
+                    OkukiState okukiState = bundle.getParcelable(OKUKI_STATE_KEY);
+                    if (okukiState != null) {
+                        OkukiParceler.apply(okuki, okukiState);
+                    }
+                }
+                super.onActivityCreated(activity, bundle);
+            }
 
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+                if (bundle != null) {
+                    OkukiState okukiState = OkukiParceler.extract(okuki);
+                    if (okukiState != null) {
+                        bundle.putParcelable(OKUKI_STATE_KEY, okukiState);
+                    }
+                }
+                super.onActivitySaveInstanceState(activity, bundle);
+            }
+
+        };
+        placeScoper = new PlaceScoper.Builder().okuki(okuki)
+                .modules(new AppModule(), new NetworkModule()).build();
     }
 
     private class AppModule extends SmoothieApplicationModule {
@@ -36,6 +65,7 @@ public class App extends Application {
         AppModule() {
             super(App.this);
             bind(Okuki.class).toInstance(okuki);
+            bind(RxActivityLifecycleCallbacks.class).toInstance(lifecycle);
         }
 
     }
@@ -60,59 +90,9 @@ public class App extends Application {
 
     }
 
-    private class OkukiStateRestorer implements ActivityLifecycleCallbacks {
-
-        private final String key = OkukiState.class.getName();
-
-        @Override
-        public void onActivityCreated(Activity activity, Bundle bundle) {
-            if ((okuki.getCurrentPlace() == null) && (bundle != null) && bundle.containsKey(key)) {
-                OkukiState okukiState = bundle.getParcelable(key);
-                if (okukiState != null) {
-                    okukiState.applyToOkuki(okuki);
-                }
-            }
-        }
-
-        @Override
-        public void onActivityStarted(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivityResumed(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivityPaused(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivityStopped(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-            if (bundle != null) {
-                OkukiState okukiState = OkukiState.extractFromOkuki(okuki);
-                if (okukiState != null) {
-                    bundle.putParcelable(key, okukiState);
-                }
-            }
-        }
-
-        @Override
-        public void onActivityDestroyed(Activity activity) {
-
-        }
-    }
-
     public static void inject(Object obj) {
         try {
-            placeScoper.inject(obj);
+            APP_INSTANCE.placeScoper.inject(obj);
         } catch (Throwable t) {
             Timber.e(t, "Error injecting %s", obj);
         }

@@ -3,7 +3,6 @@ package okuki.sample.welcome;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.Date;
 
@@ -11,10 +10,9 @@ public class WelcomePlace extends okuki.Place<Date> implements Parcelable {
 
     public WelcomePlace(@NonNull Date data) {
         super(data);
-        Log.d("OkukiState", "WelcomePlace: " + data);
     }
 
-    private WelcomePlace(Parcel parcel){
+    private WelcomePlace(Parcel parcel) {
         this(new Date(parcel.readLong()));
     }
 

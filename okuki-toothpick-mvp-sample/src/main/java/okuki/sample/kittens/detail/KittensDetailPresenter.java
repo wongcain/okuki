@@ -21,7 +21,6 @@ public class KittensDetailPresenter extends Presenter<KittensDetailPresenter.Vu>
     @Override
     protected void onVuAttached() {
         addSubscriptions(
-                RxOkuki.onAnyPlace(okuki).subscribe(place -> Timber.d("PLACE EVENT: " + place), Errors.log()),
                 RxOkuki.onPlace(okuki, KittensDetailPlace.class)
                         .doOnNext(place -> Timber.d(place.toString()))
                         .map(place -> place.getData())

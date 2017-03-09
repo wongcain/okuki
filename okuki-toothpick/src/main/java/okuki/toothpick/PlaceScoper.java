@@ -15,7 +15,10 @@ public class PlaceScoper extends GlobalListener {
     private final Okuki okuki;
     private Place currentPlace;
 
-    public PlaceScoper(Okuki okuki, Module... rootModules) {
+    PlaceScoper(Okuki okuki, Module... rootModules) {
+        if (okuki == null) {
+            throw new IllegalArgumentException("Okuki instance is required");
+        }
         this.okuki = okuki;
         Toothpick.openScope(okuki).installModules(rootModules);
         okuki.addGlobalListener(this);
@@ -104,4 +107,28 @@ public class PlaceScoper extends GlobalListener {
         return moduleClasses;
     }
 
+    public static final class Builder {
+
+        private Okuki okuki;
+        private final List<Module> modules = new ArrayList<>();
+
+        public PlaceScoper build() {
+            return new PlaceScoper(okuki, modules.toArray(new Module[modules.size()]));
+        }
+
+        public Builder okuki(Okuki okuki) {
+            this.okuki = okuki;
+            return this;
+        }
+
+        public Builder modules(Module... modules) {
+            for (Module module : modules) {
+                if (module != null) {
+                    this.modules.add(module);
+                }
+            }
+            return this;
+        }
+
+    }
 }

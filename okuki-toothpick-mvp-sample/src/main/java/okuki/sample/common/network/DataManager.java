@@ -90,4 +90,8 @@ public abstract class DataManager<T> {
     public int getPageSize() {
         return pageSize;
     }
+
+    protected List<T> getResults() {
+        return results;
+    }
 }

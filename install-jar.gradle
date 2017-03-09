@@ -8,7 +8,7 @@ install {
         // This generates POM.xml with proper parameters
         pom {
             project {
-                packaging 'aar'
+                packaging 'jar'
                 groupId publishedGroupId
                 artifactId artifact
 
