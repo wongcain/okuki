@@ -3,8 +3,7 @@ A simple, hierarchical navigation bus and back stack for Android, with optional 
 and Toothpick integration for automatic dependency-scope management.
 
 ## Examples
-2 sample projects are provided below. Although Okuki is written in Java with no Android dependencies,
-it was written with Android in mind. As such, both examples are Android projects:
+2 sample projects are provided below:
 * [Simple Example](https://github.com/wongcain/okuki/tree/master/okuki-sample): Demonstrates basic
 usage in a simple Android project, without use of the optional Rx and Toothpick integrations.
 * [MVP Example](https://github.com/wongcain/okuki/tree/master/okuki-toothpick-mvp-sample): Demonstrates
@@ -212,12 +211,12 @@ History Back Stack) across Android configuration changes and process death.
 
 ### Usage
 Do the following to enable Okuki State save/restore:
-1. Add the dependency for Okuki-Android. (See _Setup_ above.)
-2. Ensure that all of your `Place` classes either have `Void` payload types (which includes 
+* Add the dependency for Okuki-Android. (See _Setup_ above.)
+* Ensure that all of your `Place` classes either have `Void` payload types (which includes 
 `SimplePlace`), or payload types that implement `Parcelable` or `Serializable`.
-3. Call `OkukiParceler.extract(Okuki okuki)` to get a Parcelable `OkukiState` object that can 
+* Call `OkukiParceler.extract(Okuki okuki)` to get a Parcelable `OkukiState` object that can 
 be written into a `Bundle`. (_Note: the OkukiState may be null if no PlaceRequest has yet been made._)
-4. Call `OkukiParceler.apply(Okuki okuki, OkukiState okukiState)` to restore the saved state to your
+* Call `OkukiParceler.apply(Okuki okuki, OkukiState okukiState)` to restore the saved state to your
 Okuki instance.
 
 ## Toothpick Dependency Injection Integration
@@ -230,13 +229,13 @@ resources not needed in the new Place hierarchy.
 
 ### Usage
 Do the following to enable the Toothpick integration:
-1. Add the dependencies for both Toothpick and Okuki-Toothpick. (See _Setup_ above.)
-2. Create a `PlaceScoper` instance for your Okuki instance using its `Builder`, also specifying any 
+* Add the dependencies for both Toothpick and Okuki-Toothpick. (See _Setup_ above.)
+* Create a `PlaceScoper` instance for your Okuki instance using its `Builder`, also specifying any 
 Modules that you like to configure dependencies that should be available globally:
 ```
 placeScoper = new PlaceScoper.Builder().okuki(okuki).modules(new AppModule(), new NetworkModule()).build();
 ```
-3. Use the `@ScopeConfig` annotation on `Place` classes to define additional Modules that should 
+* Use the `@ScopeConfig` annotation on `Place` classes to define additional Modules that should 
 apply only to the respective portion of the hierachy defined by the Place. (These modules will 
 themselves automatically receive any injections available from their parent scope.):
 ```
@@ -246,7 +245,7 @@ public class KittensPlace extends SimplePlace {
     }
 }
 ```
-4. Use your instance of `PlaceScoper` to perform all of your injections across your application. 
+* Use your instance of `PlaceScoper` to perform all of your injections across your application. 
 (Do do so you'll need provide some kind of static accessor to your `PlaceScoper` instance.):
 ```
 APP_INSTANCE.placeScoper.inject(obj);
