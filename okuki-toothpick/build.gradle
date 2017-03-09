@@ -11,12 +11,12 @@ ext {
     libraryName = 'Okuki Toothpick'
     artifact = 'okuki-toothpick'
 
-    libraryDescription = 'Toothpick DI integration for Okuki'
+    libraryDescription = 'Toothpick Dependency Injection integration for Okuki'
 
     siteUrl = 'https://github.com/wongcain/okuki'
     gitUrl = 'https://github.com/wongcain/okuki.git'
 
-    libraryVersion = '0.1.2'
+    libraryVersion = '0.2.0'
 
     developerId = 'wongcain'
     developerName = 'Cain Wong'
@@ -31,7 +31,10 @@ dependencies {
     compile project(':okuki')
     compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.5'
     compile 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.5'
+    testCompile 'org.assertj:assertj-core:3.6.1'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'org.powermock:powermock-mockito-release-full:1.6.2'
 }
 
-apply from: '../install.gradle'
+apply from: '../install-jar.gradle'
 apply from: '../bintray.gradle'

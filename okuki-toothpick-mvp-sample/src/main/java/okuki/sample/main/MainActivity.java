@@ -10,6 +10,7 @@ import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okuki.sample.App;
 import okuki.sample.R;
 import okuki.sample.chucknorris.ChuckNorrisView;
 import okuki.sample.kittens.KittensView;

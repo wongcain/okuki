@@ -17,6 +17,7 @@ import com.bumptech.glide.request.target.Target;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okuki.sample.R;
+import timber.log.Timber;
 
 public class KittensDetailActivity extends AppCompatActivity implements KittensDetailPresenter.Vu {
 

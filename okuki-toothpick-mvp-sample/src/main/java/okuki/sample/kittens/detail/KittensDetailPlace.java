@@ -11,4 +11,8 @@ public class KittensDetailPlace extends Place<Integer> {
         super(data);
     }
 
+    @Override
+    public String toString() {
+        return "KittensDetailPlace{" + getData() + "}";
+    }
 }

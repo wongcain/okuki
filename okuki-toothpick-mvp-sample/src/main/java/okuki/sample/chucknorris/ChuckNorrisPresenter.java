@@ -1,17 +1,11 @@
 package okuki.sample.chucknorris;
 
-import android.support.annotation.NonNull;
-
-import java.util.Collections;
-import java.util.List;
-
 import javax.inject.Inject;
 
-import okuki.sample.common.mvp.PlacePresenter;
+import okuki.sample.common.mvp.Presenter;
 import okuki.sample.common.rx.Errors;
-import toothpick.config.Module;
 
-public class ChuckNorrisPresenter extends PlacePresenter<ChuckNorrisPlace, ChuckNorrisPresenter.Vu> {
+public class ChuckNorrisPresenter extends Presenter<ChuckNorrisPresenter.Vu> {
 
     @Inject
     ChuckNorrisDataManager dataManager;
@@ -28,21 +22,23 @@ public class ChuckNorrisPresenter extends PlacePresenter<ChuckNorrisPlace, Chuck
                 dataManager.onListUpdated()
                         .filter(aVoid -> dataManager.getNumResults() > 0)
                         .subscribe(
-                                ignore -> getVu().setJokeHtml(dataManager.getResult(0).text),
+                                ignore -> setJoke(),
                                 Errors.log()
                         )
         );
+        if (dataManager.getNumResults() == 0) {
+            reload();
+        } else {
+            setJoke();
+        }
+    }
+
+    void reload() {
         dataManager.load();
     }
 
-    void reload(){
-        dataManager.load();
-    }
-
-    @NonNull
-    @Override
-    protected List<Module> getModules() {
-        return Collections.singletonList(new ChuckNorrisModule());
+    void setJoke() {
+        getVu().setJokeHtml(dataManager.getResult(0).text);
     }
 
     interface Vu {

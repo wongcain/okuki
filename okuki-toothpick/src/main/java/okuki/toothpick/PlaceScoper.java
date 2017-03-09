@@ -3,35 +3,35 @@ package okuki.toothpick;
 import java.util.ArrayList;
 import java.util.List;
 
+import okuki.GlobalListener;
+import okuki.Okuki;
 import okuki.Place;
 import toothpick.Scope;
 import toothpick.Toothpick;
 import toothpick.config.Module;
 
-public class PlaceScoper {
+public class PlaceScoper extends GlobalListener {
 
-    private static final Object ROOT_SCOPE_KEY = new Object() {
-        @Override
-        public String toString() {
-            return PlaceScoper.class.getName() + ".ROOT_SCOPE_KEY";
-        }
-    };
+    private final Okuki okuki;
+    private Place currentPlace;
 
-    public static Scope openRootScope(Module... modules) {
-        Scope scope = Toothpick.openScope(ROOT_SCOPE_KEY);
-        if (modules != null) {
-            scope.installModules(modules);
+    PlaceScoper(Okuki okuki, Module... rootModules) {
+        if (okuki == null) {
+            throw new IllegalArgumentException("Okuki instance is required");
         }
-        return scope;
+        this.okuki = okuki;
+        Toothpick.openScope(okuki).installModules(rootModules);
+        okuki.addGlobalListener(this);
     }
 
-    public static void closeRootScope() {
-        Toothpick.closeScope(ROOT_SCOPE_KEY);
+    public void close() {
+        okuki.removeGlobalListener(this);
+        Toothpick.closeScope(okuki);
     }
 
-    public static Scope openPlaceScope(Class<? extends Place> placeClass, Module... modules) {
+    private Scope openPlaceScope(Class<? extends Place> placeClass, Module... modules) {
         List<Object> scopeKeys = new ArrayList<>();
-        scopeKeys.add(ROOT_SCOPE_KEY);
+        scopeKeys.add(okuki);
         scopeKeys.addAll(Place.getHierarchyForPlace(placeClass));
         Scope scope = Toothpick.openScopes(scopeKeys.toArray());
         if (modules != null) {
@@ -40,13 +40,9 @@ public class PlaceScoper {
         return scope;
     }
 
-    public static void closePlaceScope(Class<? extends Place> placeClass) {
-        Toothpick.closeScope(placeClass);
-    }
-
-    public static Scope openParentScope(Class<? extends Place> placeClass) {
+    private Scope openParentScope(Class<? extends Place> placeClass) {
         List<Object> scopeKeys = new ArrayList<>();
-        scopeKeys.add(ROOT_SCOPE_KEY);
+        scopeKeys.add(okuki);
         List<Class<? extends Place>> hierarchy = Place.getHierarchyForPlace(placeClass);
         if (hierarchy.size() > 1) {
             scopeKeys.addAll(hierarchy.subList(0, hierarchy.size() - 1));
@@ -54,4 +50,85 @@ public class PlaceScoper {
         return Toothpick.openScopes(scopeKeys.toArray());
     }
 
+    public void inject(Object obj) {
+        Scope scope = (currentPlace == null) ? Toothpick.openScope(okuki) : openPlaceScope(currentPlace.getClass());
+        Toothpick.inject(obj, scope);
+    }
+
+    @Override
+    public void onPlace(Place place) {
+
+        // get current place hierarchy
+        List<Class<? extends Place>> prevHier = (currentPlace == null) ? new ArrayList<>() : currentPlace.getHierarchy();
+
+        // get new place hierarchy
+        List<Class<? extends Place>> newHier = place.getHierarchy();
+
+        // close previous place scope hierarchy starting at first place of difference
+        List<Class<? extends Place>> keysToClose = new ArrayList<>(prevHier);
+        keysToClose.removeAll(newHier);
+        for (Class<? extends Place> keyToClose : keysToClose) {
+            Toothpick.closeScope(keyToClose);
+        }
+
+        // open new scope hierarchy setting modules for newly opened scopes
+        for (Class<? extends Place> keyToOpen : newHier) {
+            List<Module> modules = new ArrayList<>();
+            if (!prevHier.contains(keyToOpen)) {
+                Scope parentScope = openParentScope(keyToOpen);
+                List<Class<? extends Module>> moduleClasses = getModuleClassesForPlaceScope(keyToOpen);
+                for (Class<? extends Module> moduleClass : moduleClasses) {
+                    try {
+                        modules.add(parentScope.getInstance(moduleClass));
+                    } catch (Exception e) {
+                        try {
+                            modules.add(moduleClass.newInstance());
+                        } catch (Exception e1) {
+                            throw new RuntimeException("Unable to instatiate module: " + moduleClass, e1);
+                        }
+                    }
+                }
+            }
+            openPlaceScope(keyToOpen, modules.toArray(new Module[modules.size()]));
+        }
+
+        currentPlace = place;
+    }
+
+
+    private List<Class<? extends Module>> getModuleClassesForPlaceScope(Class<? extends Place> placeClass) {
+        List<Class<? extends Module>> moduleClasses = new ArrayList<>();
+        ScopeConfig config = placeClass.getAnnotation(ScopeConfig.class);
+        if (config != null) {
+            for (Class<? extends Module> moduleClass : config.modules()) {
+                moduleClasses.add(moduleClass);
+            }
+        }
+        return moduleClasses;
+    }
+
+    public static final class Builder {
+
+        private Okuki okuki;
+        private final List<Module> modules = new ArrayList<>();
+
+        public PlaceScoper build() {
+            return new PlaceScoper(okuki, modules.toArray(new Module[modules.size()]));
+        }
+
+        public Builder okuki(Okuki okuki) {
+            this.okuki = okuki;
+            return this;
+        }
+
+        public Builder modules(Module... modules) {
+            for (Module module : modules) {
+                if (module != null) {
+                    this.modules.add(module);
+                }
+            }
+            return this;
+        }
+
+    }
 }

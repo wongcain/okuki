@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
     }
 }
@@ -46,6 +46,7 @@ dependencies {
     compile project(':okuki')
     compile project(':okuki-rx')
     compile project(':okuki-toothpick')
+    compile project(':okuki-android')
 
     // support libs
     compile 'com.android.support:appcompat-v7:25.1.0'

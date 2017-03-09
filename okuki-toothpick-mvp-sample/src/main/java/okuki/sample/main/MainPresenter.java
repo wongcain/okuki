@@ -29,6 +29,7 @@ public class MainPresenter extends Presenter<MainPresenter.Vu> {
 
                 // TODO consolidate filter/doOnNext somehow
                 RxOkuki.onBranch(okuki, WelcomePlace.class)
+                        .distinct()
                         .filter(stateChangeHelper.onlyNewFilter(WelcomePlace.class))
                         .subscribe(place -> getVu().loadWelcome(), Errors.log()),
 

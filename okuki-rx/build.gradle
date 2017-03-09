@@ -16,7 +16,7 @@ ext {
     siteUrl = 'https://github.com/wongcain/okuki'
     gitUrl = 'https://github.com/wongcain/okuki.git'
 
-    libraryVersion = '0.1.2'
+    libraryVersion = '0.2.0'
 
     developerId = 'wongcain'
     developerName = 'Cain Wong'
@@ -35,5 +35,5 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.10.19'
 }
 
-apply from: '../install.gradle'
+apply from: '../install-jar.gradle'
 apply from: '../bintray.gradle'

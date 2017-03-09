@@ -4,12 +4,13 @@ import javax.inject.Inject;
 
 import okuki.Okuki;
 import okuki.rx.RxOkuki;
-import okuki.sample.common.mvp.PlacePresenter;
+import okuki.sample.common.api.giphy.SearchResult;
+import okuki.sample.common.mvp.Presenter;
 import okuki.sample.common.rx.Errors;
 import okuki.sample.kittens.KittensDataManager;
-import okuki.sample.common.api.giphy.SearchResult;
+import timber.log.Timber;
 
-public class KittensDetailPresenter extends PlacePresenter<KittensDetailPlace, KittensDetailPresenter.Vu> {
+public class KittensDetailPresenter extends Presenter<KittensDetailPresenter.Vu> {
 
     @Inject
     Okuki okuki;
@@ -21,6 +22,7 @@ public class KittensDetailPresenter extends PlacePresenter<KittensDetailPlace, K
     protected void onVuAttached() {
         addSubscriptions(
                 RxOkuki.onPlace(okuki, KittensDetailPlace.class)
+                        .doOnNext(place -> Timber.d(place.toString()))
                         .map(place -> place.getData())
                         .filter(index -> index < dataManager.getNumResults())
                         .subscribe(this::loadKittenImg, Errors.log())

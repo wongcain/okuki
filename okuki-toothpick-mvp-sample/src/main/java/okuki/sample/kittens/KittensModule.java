@@ -5,18 +5,15 @@ import com.google.gson.Gson;
 import javax.inject.Inject;
 
 import okhttp3.OkHttpClient;
-import okuki.toothpick.PlaceModule;
+import okuki.sample.common.lifecycle.RxActivityLifecycleCallbacks;
+import toothpick.config.Module;
 
 
-public class KittensModule extends PlaceModule<KittensPlace> {
-
-    @Inject
-    OkHttpClient client;
+public class KittensModule extends Module {
 
     @Inject
-    Gson gson;
-
-    public KittensModule() {
-        bind(KittensDataManager.class).toInstance(new KittensDataManager(client, gson));
+    public KittensModule(OkHttpClient client, Gson gson, RxActivityLifecycleCallbacks lifecycle) {
+        bind(KittensDataManager.class).toInstance(new KittensDataManager(client, gson, lifecycle));
     }
+
 }

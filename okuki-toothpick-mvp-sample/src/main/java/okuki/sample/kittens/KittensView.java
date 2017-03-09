@@ -20,7 +20,6 @@ import okuki.sample.kittens.detail.KittensDetailActivity;
 public class KittensView extends RecyclerView implements KittensPresenter.Vu {
 
     private final KittensPresenter presenter = new KittensPresenter();
-    private final KittensAdapter adapter = new KittensAdapter();
 
     public KittensView(Context context) {
         super(context);
@@ -38,8 +37,8 @@ public class KittensView extends RecyclerView implements KittensPresenter.Vu {
     }
 
     private void init(Context context) {
-        setLayoutManager(new GridLayoutManager(getContext(), 2));
-        setAdapter(adapter);
+        setLayoutManager(new GridLayoutManager(context, 2));
+        setAdapter(new KittensAdapter());
     }
 
     @Override
@@ -56,12 +55,12 @@ public class KittensView extends RecyclerView implements KittensPresenter.Vu {
 
     @Override
     public void notifyUpdated() {
-        adapter.notifyDataSetChanged();
+        getAdapter().notifyDataSetChanged();
     }
 
     @Override
     public void notifyInserted(int position, int count) {
-        adapter.notifyItemRangeInserted(position, count);
+        getAdapter().notifyItemRangeInserted(position, count);
     }
 
     @Override

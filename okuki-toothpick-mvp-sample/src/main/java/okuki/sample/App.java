@@ -5,85 +5,67 @@ import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 
-import javax.inject.Inject;
-
 import okuki.Okuki;
+import okuki.android.OkukiParceler;
+import okuki.android.OkukiState;
+import okuki.sample.common.lifecycle.RxActivityLifecycleCallbacks;
 import okuki.sample.common.network.NetworkModule;
-import okuki.sample.common.okuki.OkukiStateRestorer;
 import okuki.toothpick.PlaceScoper;
+import rx.Observable;
 import timber.log.Timber;
-import toothpick.Toothpick;
 import toothpick.smoothie.module.SmoothieApplicationModule;
 
 public class App extends Application {
 
-    @Inject
-    Okuki okuki;
+    private static App APP_INSTANCE;
+    private static final String OKUKI_STATE_KEY = OkukiState.class.getName();
 
-    @Inject
-    OkukiStateRestorer mOkukiStateRestorer;
+    private Okuki okuki;
+    private RxActivityLifecycleCallbacks lifecycle;
+    private PlaceScoper placeScoper;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initLogging();
-        injectThis();
-        initOkukiSaveState();
-    }
+        APP_INSTANCE = this;
 
-    private void initLogging() {
         Timber.plant((BuildConfig.DEBUG) ? new Timber.DebugTree() : new CrashReportingTree());
-    }
 
-    private void injectThis() {
-        Toothpick.inject(this, PlaceScoper.openRootScope(new AppModule(this), new NetworkModule()));
-    }
-
-    private void initOkukiSaveState() {
-        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+        okuki = Okuki.getDefault();
+        lifecycle = new RxActivityLifecycleCallbacks(this){
             @Override
             public void onActivityCreated(Activity activity, Bundle bundle) {
-                mOkukiStateRestorer.onRestore(bundle);
-            }
-
-            @Override
-            public void onActivityStarted(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-
+                if ((okuki.getCurrentPlace() == null) && (bundle != null) && bundle.containsKey(OKUKI_STATE_KEY)) {
+                    OkukiState okukiState = bundle.getParcelable(OKUKI_STATE_KEY);
+                    if (okukiState != null) {
+                        OkukiParceler.apply(okuki, okukiState);
+                    }
+                }
+                super.onActivityCreated(activity, bundle);
             }
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-                mOkukiStateRestorer.onSave(bundle);
+                if (bundle != null) {
+                    OkukiState okukiState = OkukiParceler.extract(okuki);
+                    if (okukiState != null) {
+                        bundle.putParcelable(OKUKI_STATE_KEY, okukiState);
+                    }
+                }
+                super.onActivitySaveInstanceState(activity, bundle);
             }
 
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-
-            }
-        });
+        };
+        placeScoper = new PlaceScoper.Builder().okuki(okuki)
+                .modules(new AppModule(), new NetworkModule()).build();
     }
 
     private class AppModule extends SmoothieApplicationModule {
 
-        AppModule(Application app) {
-            super(app);
-            bind(Okuki.class).toInstance(Okuki.getDefault());
-            bind(OkukiStateRestorer.class).singletonInScope();
+        AppModule() {
+            super(App.this);
+            bind(Okuki.class).toInstance(okuki);
+            bind(RxActivityLifecycleCallbacks.class).toInstance(lifecycle);
         }
 
     }
@@ -97,7 +79,6 @@ public class App extends Application {
             }
 
             //TODO Log to crash reporting
-
             if (t != null) {
                 if (priority == Log.ERROR) {
                     //TODO Log throwable as error to crash reporting
@@ -108,4 +89,13 @@ public class App extends Application {
         }
 
     }
+
+    public static void inject(Object obj) {
+        try {
+            APP_INSTANCE.placeScoper.inject(obj);
+        } catch (Throwable t) {
+            Timber.e(t, "Error injecting %s", obj);
+        }
+    }
+
 }
