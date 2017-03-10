@@ -57,4 +57,33 @@ public class OkukiParcelerTest {
     }
 
 
+    static class StringPlace extends Place<String> {
+        public StringPlace(String data) {
+            super(data);
+        }
+    }
+
+    static class IntegerPlace extends Place<Integer> {
+        public IntegerPlace(Integer data) {
+            super(data);
+        }
+    }
+
+    static class LongPlace extends Place<Long> {
+        public LongPlace(Long data) {
+            super(data);
+        }
+    }
+
+    static class FloatPlace extends Place<Float> {
+        public FloatPlace(Float data) {
+            super(data);
+        }
+    }
+
+    static class DoublePlace extends Place<Double> {
+        public DoublePlace(Double data) {
+            super(data);
+        }
+    }
 }
