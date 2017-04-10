@@ -9,7 +9,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 
-public class OnBranchOnSubscribe implements Observable.OnSubscribe<Place> {
+final class OnBranchOnSubscribe implements Observable.OnSubscribe<Place> {
 
     private final Okuki okuki;
     private final Class<? extends Place> branchClass;

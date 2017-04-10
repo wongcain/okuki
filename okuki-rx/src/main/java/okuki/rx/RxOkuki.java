@@ -14,6 +14,7 @@ public class RxOkuki {
         return Observable.create(new OnGlobalPlaceOnSubscribe(okuki));
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends Place> Observable<T> onPlace(Okuki okuki, Class<T> clazz) {
         return Observable.create(new OnPlaceOnSubscribe(okuki, clazz));
     }

@@ -9,7 +9,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 
-public class OnPlaceOnSubscribe<T extends Place> implements Observable.OnSubscribe<T> {
+final class OnPlaceOnSubscribe<T extends Place> implements Observable.OnSubscribe<T> {
 
     private final Okuki okuki;
     private final Class<T> placeClass;
