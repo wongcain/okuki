@@ -32,9 +32,11 @@ public class ContactsFragment extends Fragment {
         return new ContactsFragment();
     }
 
+    private ContactsAdapter contactsAdapter;
     private PlaceListener<ContactsPlace> contactsPlaceListener;
     private BranchListener<ContactDetailsPlace> contactDetailsBranchListener;
     private BranchListener<ContactEditPlace> contactEditBranchListener;
+    private ContactsDataManager.UpdateListener contactsUpdateListener;
 
     Spinner spinner;
 
@@ -52,7 +54,7 @@ public class ContactsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         spinner = (Spinner) view.findViewById(R.id.contacts_spinner);
-        final ContactsAdapter contactsAdapter = new ContactsAdapter(view.getContext());
+        contactsAdapter = new ContactsAdapter(view.getContext());
         spinner.setAdapter(contactsAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -98,12 +100,20 @@ public class ContactsFragment extends Fragment {
             }
         };
         okuki.addBranchListener(contactEditBranchListener);
+        contactsUpdateListener = new ContactsDataManager.UpdateListener() {
+            @Override
+            public void onUpdated() {
+                contactsAdapter.notifyDataSetChanged();
+            }
+        };
+        ContactsDataManager.addUpdateListener(contactsUpdateListener);
     }
 
     @Override
     public void onStop() {
         okuki.removeBranchListener(contactDetailsBranchListener);
         okuki.removeBranchListener(contactEditBranchListener);
+        ContactsDataManager.removeUpdateListener(contactsUpdateListener);
         super.onStop();
     }
 

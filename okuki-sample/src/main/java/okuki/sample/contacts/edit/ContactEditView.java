@@ -1,7 +1,6 @@
 package okuki.sample.contacts.edit;
 
 import android.content.Context;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,9 +84,7 @@ public class ContactEditView extends LinearLayout {
     private void load(int contactId) {
         Contact contact = ContactsDataManager.getContact(contactId);
         if (contact != null) {
-            if (editContact == null || editContact.getId() != contact.getId()) {
-                editContact = contact.clone();
-            }
+            editContact = contact;
             nameView.setText(editContact.getName());
             emailView.setText(editContact.getEmail());
         } else {
@@ -98,8 +95,8 @@ public class ContactEditView extends LinearLayout {
 
     private void save() {
         if (editContact != null) {
-            updateEditCopy();
             ContactDetailsPlace detailsPlace = new ContactDetailsPlace(editContact.getId());
+            updateEditCopy();
             ContactsDataManager.saveContact(editContact);
             editContact = null;
             okuki.gotoPlace(detailsPlace, HistoryAction.TRY_BACK_TO_SAME);
@@ -116,8 +113,7 @@ public class ContactEditView extends LinearLayout {
 
     private void updateEditCopy() {
         if (editContact != null) {
-            editContact.setName((nameView.getText().toString()));
-            editContact.setEmail(emailView.getText().toString());
+            editContact = new Contact(editContact.getId(), nameView.getText().toString(), emailView.getText().toString());
         }
     }
 
