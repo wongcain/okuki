@@ -1,4 +1,4 @@
-package okuki.sample.mvvm.common;
+package okuki.sample.mvvm.common.mvvm;
 
 import android.support.annotation.LayoutRes;
 

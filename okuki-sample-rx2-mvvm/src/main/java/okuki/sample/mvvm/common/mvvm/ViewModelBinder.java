@@ -1,4 +1,4 @@
-package okuki.sample.mvvm.common;
+package okuki.sample.mvvm.common.mvvm;
 
 import android.databinding.BindingAdapter;
 import android.support.v4.app.FragmentManager;

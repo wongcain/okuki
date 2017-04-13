@@ -3,7 +3,7 @@ package okuki.sample.mvvm.hello;
 import android.databinding.ObservableField;
 
 import okuki.sample.mvvm.R;
-import okuki.sample.mvvm.common.ViewModel;
+import okuki.sample.mvvm.common.mvvm.ViewModel;
 
 public class HelloViewModel implements ViewModel {
     public final ObservableField<String> message = new ObservableField<>();

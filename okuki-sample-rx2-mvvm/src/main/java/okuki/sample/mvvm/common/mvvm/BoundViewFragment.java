@@ -1,4 +1,4 @@
-package okuki.sample.mvvm.common;
+package okuki.sample.mvvm.common.mvvm;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
