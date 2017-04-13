@@ -9,12 +9,12 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 
-public class OnBranchOnSubscribe implements Observable.OnSubscribe<Place> {
+final class OnBranchOnSubscribe<B extends Place> implements Observable.OnSubscribe<Place> {
 
     private final Okuki okuki;
-    private final Class<? extends Place> branchClass;
+    private final Class<B> branchClass;
 
-    OnBranchOnSubscribe(Okuki okuki, Class<? extends Place> branchClass) {
+    OnBranchOnSubscribe(Okuki okuki, Class<B> branchClass) {
         this.okuki = okuki;
         this.branchClass = branchClass;
     }

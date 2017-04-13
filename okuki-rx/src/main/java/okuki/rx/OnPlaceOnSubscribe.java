@@ -9,18 +9,18 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 
-public class OnPlaceOnSubscribe<T extends Place> implements Observable.OnSubscribe<T> {
+final class OnPlaceOnSubscribe<P extends Place> implements Observable.OnSubscribe<P> {
 
     private final Okuki okuki;
-    private final Class<T> placeClass;
+    private final Class<P> placeClass;
 
-    OnPlaceOnSubscribe(Okuki okuki, Class<T> placeClass) {
+    OnPlaceOnSubscribe(Okuki okuki, Class<P> placeClass) {
         this.okuki = okuki;
         this.placeClass = placeClass;
     }
 
     @Override
-    public void call(final Subscriber<? super T> subscriber) {
+    public void call(final Subscriber<? super P> subscriber) {
         final PlaceListener listener = new PlaceListener<Place>() {
             @Override
             public Class getPlaceClass() {
@@ -30,7 +30,7 @@ public class OnPlaceOnSubscribe<T extends Place> implements Observable.OnSubscri
             @Override
             public void onPlace(Place place) {
                 if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext((T) place);
+                    subscriber.onNext((P) place);
                 }
             }
 
