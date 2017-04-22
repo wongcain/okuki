@@ -1,4 +1,4 @@
-package okuki.sample;
+package okuki.sample.mvvm;
 
 import android.app.Activity;
 import android.app.Application;
@@ -8,10 +8,11 @@ import android.util.Log;
 import okuki.Okuki;
 import okuki.android.OkukiParceler;
 import okuki.android.OkukiState;
-import okuki.sample.common.lifecycle.RxActivityLifecycleCallbacks;
-import okuki.sample.common.network.NetworkModule;
+import okuki.sample.mvvm.common.lifecycle.RxActivityLifecycleCallbacks;
+import okuki.sample.mvvm.common.network.NetworkModule;
 import okuki.toothpick.PlaceScoper;
 import timber.log.Timber;
+import toothpick.Toothpick;
 import toothpick.smoothie.module.SmoothieApplicationModule;
 
 public class App extends Application {

@@ -1,7 +1,7 @@
-package okuki;
+package okuki.sample.mvvm.common.mvvm;
+
 
 import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -11,6 +11,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Retention(RUNTIME)
 @Target(TYPE)
-public @interface PlaceConfig {
-    Class<? extends Place> parent() default NullPlace.class;
+public @interface ComponentConfig {
+
+
+    int layoutResId();
+
+    Class<? extends ViewModel> viewModelClass();
+
 }

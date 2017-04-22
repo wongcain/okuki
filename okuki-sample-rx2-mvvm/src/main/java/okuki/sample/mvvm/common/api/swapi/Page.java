@@ -17,14 +17,14 @@ public abstract class Page<T> {
     }
 
     @Nullable
-    abstract Integer count();
+    public abstract Integer count();
 
     @Nullable
-    abstract String next();
+    public abstract String next();
 
     @Nullable
-    abstract String previous();
+    public abstract String previous();
 
-    abstract List<T> results();
+    public abstract List<T> results();
 
 }

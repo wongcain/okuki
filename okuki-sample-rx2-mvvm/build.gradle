@@ -1,4 +1,15 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+    }
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
@@ -6,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId "okuki.sample.mvvm"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -14,12 +25,24 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     dataBinding {
         enabled = true
     }
@@ -29,10 +52,15 @@ dependencies {
     compile project(':okuki')
     compile project(':okuki-rx2')
     compile project(':okuki-android')
+    compile project(':okuki-toothpick')
 
     compile 'io.reactivex.rxjava2:rxjava:2.0.2'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.0'
-    compile 'nl.littlerobots.rxlint:rxlint:1.0'
+    compile 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
+
+    compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.5'
+    compile 'com.github.stephanenicolas.toothpick:smoothie:1.0.5'
+    annotationProcessor 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.5'
 
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
@@ -47,7 +75,9 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
 
     compile 'com.jakewharton.timber:timber:4.1.2'
 
+    compile 'com.google.code.gson:gson:2.7'
 }

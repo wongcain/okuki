@@ -35,11 +35,4 @@ public abstract class Presenter<V> {
         compositeSubscription.addAll(subscriptions);
     }
 
-    /**
-     * Manually removes an Rx subscription from the auto-unsubscribe collection
-     */
-    protected void removeSubscription(Subscription subscription) {
-        compositeSubscription.remove(subscription);
-    }
-
 }

@@ -5,15 +5,42 @@
                 <variable
                     name="vm"
                     type="okuki.sample.mvvm.main.MainViewModel"/>
-                <variable
-                    name="fm"
-                    type="android.support.v4.app.FragmentManager"/>
         </data>
-        <FrameLayout
-            android:id="@+id/main_container"
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:fm="@{fm}"
-            app:childLayout="@{vm.childLayout}"/>
+            android:layout_margin="@dimen/margins">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/select"/>
+
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/item_type_selector"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:entries="@{vm.swapiItemTypes}"
+                            android:selectedItemPosition="@={vm.selectedSwapiItemType}"/>
+
+                </LinearLayout>
+
+                <FrameLayout
+                android:id="@+id/main_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:component="@{vm.mainComponent}"/>
+
+        </LinearLayout>
+
+
 </layout>

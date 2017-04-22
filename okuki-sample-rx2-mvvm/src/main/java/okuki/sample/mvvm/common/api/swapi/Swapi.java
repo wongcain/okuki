@@ -9,10 +9,7 @@ public interface Swapi {
 
     String BASE_URL = "http://swapi.co/api/";
 
-    @GET("people/")
-    Observable<Page<Person>> getPeople( @Query("page") int page);
-
-    @GET("people/{id}")
-    Observable<Person> getPerson( @Path("id") int id);
+    @GET("{type}")
+    Observable<Page<SwapiItem>> getItems(@Path("type") SwapiItem.Type type);
 
 }
