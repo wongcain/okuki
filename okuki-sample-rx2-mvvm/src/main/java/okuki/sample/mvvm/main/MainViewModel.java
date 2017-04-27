@@ -14,7 +14,7 @@ import okuki.sample.mvvm.common.mvvm.Component;
 import okuki.sample.mvvm.common.mvvm.RxObservableField;
 import okuki.sample.mvvm.common.mvvm.RxOkukiComponent;
 import okuki.sample.mvvm.common.rx.Errors;
-import okuki.sample.mvvm.swapi.SwapiListPlace;
+import okuki.sample.mvvm.swapi.list.SwapiListPlace;
 
 public class MainViewModel extends BaseViewModel {
 

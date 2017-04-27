@@ -4,7 +4,7 @@
     <data>
         <variable
             name="vm"
-            type="okuki.sample.mvvm.swapi.SwapiListViewModel"/>
+            type="okuki.sample.mvvm.swapi.list.SwapiListViewModel"/>
     </data>
 
 
@@ -19,6 +19,14 @@
             style="@style/TextAppearance.AppCompat.Headline"
             android:gravity="center"
             android:text="@{vm.swapiTypeName}"/>
+
+        <okuki.sample.mvvm.common.recyclerview.LinearRecyclerView
+            android:id="@+id/swapi_list_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:items="@{vm.swapiItemList}"
+            app:itemViewBinder="@{vm.itemBinder}"
+            />
 
     </LinearLayout>
 </layout>

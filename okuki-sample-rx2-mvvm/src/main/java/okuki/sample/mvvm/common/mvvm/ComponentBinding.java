@@ -9,6 +9,7 @@ import android.view.View.OnAttachStateChangeListener;
 import android.view.ViewGroup;
 
 import okuki.sample.mvvm.BR;
+import timber.log.Timber;
 
 public class ComponentBinding {
 
@@ -41,7 +42,7 @@ public class ComponentBinding {
                             } );
                         }
                     } catch (Exception e){
-                        //
+                        Timber.e(e, "Error getting binding");
                     }
                 }
                 viewGroup.removeAllViews();
