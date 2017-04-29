@@ -10,21 +10,21 @@ public class LinearRecyclerView extends RecyclerView {
 
     public LinearRecyclerView(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public LinearRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public LinearRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
-    private void init() {
-        setLayoutManager(new LinearLayoutManager(getContext()));
+    private void init(Context context) {
+        setLayoutManager(new LinearLayoutManager(context));
     }
 
 }

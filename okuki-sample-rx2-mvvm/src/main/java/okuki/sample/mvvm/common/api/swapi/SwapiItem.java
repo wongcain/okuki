@@ -12,7 +12,7 @@ public abstract class SwapiItem {
         planets,
         species,
         starships,
-        vehicles
+        vehicles;
     }
 
     public static JsonAdapter<SwapiItem> typeAdapter( final Moshi moshi) {
@@ -20,6 +20,8 @@ public abstract class SwapiItem {
     }
 
     public abstract String name();
+
+    public abstract String url();
 
 
 }

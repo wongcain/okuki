@@ -2,31 +2,54 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.view.View"/>
         <variable
             name="vm"
             type="okuki.sample.mvvm.swapi.list.SwapiListViewModel"/>
     </data>
 
 
-    <LinearLayout
+    <RelativeLayout
                   android:orientation="vertical"
                   android:layout_width="match_parent"
-                  android:layout_height="match_parent">
+                  android:layout_height="match_parent"
+        >
 
         <TextView
+            android:id="@+id/item_type_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/margins"
+            android:layout_marginStart="@dimen/margins"
+            android:text="@string/select"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/item_type_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Headline"
-            android:gravity="center"
-            android:text="@{vm.swapiTypeName}"/>
+            android:layout_toEndOf="@id/item_type_label"
+            android:layout_alignBaseline="@id/item_type_label"
+            android:entries="@{vm.swapiItemTypes}"
+            android:selectedItemPosition="@={vm.selectedSwapiItemType}"/>
 
         <okuki.sample.mvvm.common.recyclerview.LinearRecyclerView
             android:id="@+id/swapi_list_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:items="@{vm.swapiItemList}"
-            app:itemViewBinder="@{vm.itemBinder}"
+            app:items="@{vm.itemList}"
+            app:itemBinder="@{vm.itemBinder}"
+            android:layout_below="@id/item_type_selector"
+            android:layout_marginTop="@dimen/margins"
             />
 
-    </LinearLayout>
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/swapi_list_recycler"
+            android:visibility="@{vm.loading ? View.VISIBLE : View.GONE}"
+            />
+
+    </RelativeLayout>
 </layout>
