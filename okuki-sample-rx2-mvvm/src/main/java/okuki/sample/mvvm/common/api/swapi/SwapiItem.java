@@ -15,7 +15,7 @@ public abstract class SwapiItem {
         vehicles;
     }
 
-    public static JsonAdapter<SwapiItem> typeAdapter( final Moshi moshi) {
+    public static JsonAdapter<SwapiItem> typeAdapter(final Moshi moshi) {
         return new AutoValue_SwapiItem.MoshiJsonAdapter(moshi);
     }
 
