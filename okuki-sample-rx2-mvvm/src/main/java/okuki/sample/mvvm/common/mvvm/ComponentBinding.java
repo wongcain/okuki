@@ -17,7 +17,7 @@ public class ComponentBinding {
         throw new AssertionError("No instances.");
     }
 
-    @BindingAdapter(value={"component"})
+    @BindingAdapter("component")
     public static void loadChildComponent(ViewGroup viewGroup, Component component){
         if( component != null){
             String tag = component.getTag();
@@ -31,15 +31,16 @@ public class ComponentBinding {
                         if ( binding != null ) {
                             final ViewModel vm = viewModelClass.newInstance();
                             binding.setVariable( BR.vm, vm );
-                            view.addOnAttachStateChangeListener( new OnAttachStateChangeListener() {
-                                @Override public void onViewAttachedToWindow( View view ) {
-                                    vm.onAttach();
-                                }
-
-                                @Override public void onViewDetachedFromWindow( View view ) {
-                                    vm.onDetach();
-                                }
-                            } );
+                            vm.onAttach(); //TODO why do I need to do this?
+//                            view.addOnAttachStateChangeListener( new OnAttachStateChangeListener() {
+//                                @Override public void onViewAttachedToWindow( View view ) {
+//                                    vm.onAttach();
+//                                }
+//
+//                                @Override public void onViewDetachedFromWindow( View view ) {
+//                                    vm.onDetach();
+//                                }
+//                            } );
                         }
                     } catch (Exception e){
                         Timber.e(e, "Error getting binding");

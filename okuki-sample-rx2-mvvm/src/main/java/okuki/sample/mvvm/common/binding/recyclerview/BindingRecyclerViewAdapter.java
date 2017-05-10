@@ -1,9 +1,10 @@
-package okuki.sample.mvvm.common.mvvm.recyclerview;
+package okuki.sample.mvvm.common.binding.recyclerview;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.databinding.ViewDataBinding;
+import android.databinding.adapters.ViewBindingAdapter;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,22 +14,21 @@ import java.lang.ref.WeakReference;
 import java.util.Collection;
 
 import okuki.sample.mvvm.BR;
-import okuki.sample.mvvm.common.mvvm.ViewModel;
 
-public class BindingRecyclerViewAdapter<VM extends ViewModel>
+public class BindingRecyclerViewAdapter<T>
         extends RecyclerView.Adapter<BindingRecyclerViewAdapter.ViewHolder> {
     private final WeakReferenceOnListChangedCallback onListChangedCallback;
-    private final RecyclerItemBinder<VM> itemBinder;
-    private ObservableList<VM> items;
+    private final RecyclerItemBinder<T> itemBinder;
+    private ObservableList<T> items;
     private LayoutInflater inflater;
 
-    public BindingRecyclerViewAdapter(RecyclerItemBinder<VM> itemBinder, @Nullable Collection<VM> items) {
+    public BindingRecyclerViewAdapter(RecyclerItemBinder<T> itemBinder, @Nullable Collection<T> items) {
         this.itemBinder = itemBinder;
         this.onListChangedCallback = new WeakReferenceOnListChangedCallback(this);
         setItems(items);
     }
 
-    public void setItems(@Nullable Collection<VM> items) {
+    public void setItems(@Nullable Collection<T> items) {
         if (this.items == items) {
             return;
         }
@@ -39,7 +39,7 @@ public class BindingRecyclerViewAdapter<VM extends ViewModel>
         }
 
         if (items instanceof ObservableList) {
-            this.items = (ObservableList<VM>) items;
+            this.items = (ObservableList<T>) items;
             notifyItemRangeInserted(0, this.items.size());
             this.items.addOnListChangedCallback(onListChangedCallback);
         } else if (items != null) {
@@ -70,7 +70,7 @@ public class BindingRecyclerViewAdapter<VM extends ViewModel>
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        final VM item = items.get(position);
+        final T item = items.get(position);
         viewHolder.binding.setVariable(BR.vm, item);
         viewHolder.binding.executePendingBindings();
         itemBinder.onItemBound(position, item);

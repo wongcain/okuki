@@ -12,6 +12,6 @@ public abstract class SearchResultItem {
         return new AutoValue_SearchResultItem.MoshiJsonAdapter(moshi);
     }
 
-    public abstract SearchResultItemImage image();
+    public abstract String link();
 
 }

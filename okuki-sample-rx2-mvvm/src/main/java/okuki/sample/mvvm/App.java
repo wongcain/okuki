@@ -5,6 +5,9 @@ import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 
+import javax.inject.Inject;
+
+import okhttp3.OkHttpClient;
 import okuki.Okuki;
 import okuki.android.OkukiParceler;
 import okuki.android.OkukiState;
@@ -57,7 +60,7 @@ public class App extends Application {
 
         };
         placeScoper = new PlaceScoper.Builder().okuki(okuki)
-                .modules(new AppModule(), new NetworkModule()).build();
+                .modules(new AppModule(), new NetworkModule(this)).build();
     }
 
     private class AppModule extends SmoothieApplicationModule {

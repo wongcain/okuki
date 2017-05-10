@@ -22,9 +22,4 @@ public class MainActivity extends AppCompatActivity {
         vm.onAttach();
     }
 
-    @Override
-    protected void onDestroy() {
-        vm.onDetach();
-        super.onDestroy();
-    }
 }

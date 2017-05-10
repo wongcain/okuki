@@ -3,6 +3,7 @@ package okuki.sample.mvvm.swapi.list;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
+import android.view.View;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +17,7 @@ import okuki.Okuki;
 import okuki.rx2.RxOkuki;
 import okuki.sample.mvvm.common.api.swapi.SwapiItem;
 import okuki.sample.mvvm.common.mvvm.BaseViewModel;
-import okuki.sample.mvvm.common.mvvm.recyclerview.RecyclerItemBinder;
+import okuki.sample.mvvm.common.binding.recyclerview.RecyclerItemBinder;
 import okuki.sample.mvvm.common.rx.Errors;
 
 
@@ -34,10 +35,11 @@ public class SwapiListViewModel extends BaseViewModel {
 
     @Override
     public void onAttach() {
-        super.onAttach();
         addToAutoDispose(
                 RxObservableField.toObservable(selectedSwapiItemType).subscribe(
-                        index -> okuki.gotoPlace(new SwapiListPlace(swapiItemTypes.get(index))),
+                        index -> {
+                            okuki.gotoPlace(new SwapiListPlace(swapiItemTypes.get(index)));
+                        },
                         Errors.log()
                 ),
                 RxOkuki.onPlace(okuki, SwapiListPlace.class).subscribe(
@@ -62,12 +64,12 @@ public class SwapiListViewModel extends BaseViewModel {
     private class SwapiListItemBinder implements RecyclerItemBinder<SwapiListItemViewModel> {
 
         @Override
-        public int getLayoutRes(SwapiListItemViewModel viewModel) {
+        public int getLayoutRes(SwapiListItemViewModel item) {
             return R.layout.swapi_list_item;
         }
 
         @Override
-        public void onItemBound(int position, SwapiListItemViewModel viewModel) {
+        public void onItemBound(int position, SwapiListItemViewModel item) {
             if(isHalfPageLeft(position) && swapiListDataManager.hasMore()){
                 swapiListDataManager.loadMore();
             }
