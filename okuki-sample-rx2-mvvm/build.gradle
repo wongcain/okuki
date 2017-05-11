@@ -13,7 +13,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
 
     defaultConfig {
         applicationId "okuki.sample.mvvm"
@@ -76,9 +76,12 @@ dependencies {
     provided 'com.google.auto.value:auto-value:1.4'
     provided 'com.ryanharter.auto.value:auto-value-moshi-annotations:0.4.3'
 
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.0.1'
+    compile 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.0.1'
+
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
-    compile 'com.android.support:recyclerview-v7:25.2.0'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
 
     compile 'com.jakewharton.timber:timber:4.1.2'
 

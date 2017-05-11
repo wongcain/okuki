@@ -12,7 +12,7 @@ import java.util.List;
 @AutoValue
 public abstract class Page<T> {
 
-    public static <T> JsonAdapter<Page<T>> typeAdapter( final Moshi moshi, final Type[] types) {
+    public static <T> JsonAdapter<Page<T>> typeAdapter(final Moshi moshi, final Type[] types) {
         return new AutoValue_Page.MoshiJsonAdapter<>(moshi, types);
     }
 

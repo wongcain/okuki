@@ -14,4 +14,5 @@ public abstract class SearchResultItem {
 
     public abstract String link();
 
+    public abstract SearchResultItemImage image();
 }

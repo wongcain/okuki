@@ -67,4 +67,8 @@ public abstract class Place<T> {
         return hierarchies.get(placeClass);
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s{data=%s}", this.getClass().getSimpleName(), data);
+    }
 }

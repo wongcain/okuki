@@ -23,5 +23,4 @@ public abstract class SwapiItem {
 
     public abstract String url();
 
-
 }

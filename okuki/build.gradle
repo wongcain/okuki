@@ -16,7 +16,7 @@ ext {
     siteUrl = 'https://github.com/wongcain/okuki'
     gitUrl = 'https://github.com/wongcain/okuki.git'
 
-    libraryVersion = '0.2.0'
+    libraryVersion = '0.3.0'
 
     developerId = 'wongcain'
     developerName = 'Cain Wong'

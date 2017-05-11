@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">okuki-sample-rx2-mvvm</string>
+    <string name="app_name">Okuki Rx2 MVVM Example</string>
     <string name="select">Select</string>
 </resources>

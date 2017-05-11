@@ -2,6 +2,7 @@ package okuki.sample.mvvm.common.network;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.support.annotation.Nullable;
 
 import com.jakewharton.rxrelay2.PublishRelay;
 
@@ -18,7 +19,7 @@ public abstract class DataManager<T> {
 
     private static final int DEFAULT_PAGE_SIZE = 20;
 
-    private final ObservableList<T> results = new ObservableArrayList<T>();
+    private final ObservableList<T> items = new ObservableArrayList<T>();
     private final AtomicBoolean loading = new AtomicBoolean(false);
     private final PublishRelay<Boolean> loadingStatus = PublishRelay.create();
     private int pageSize = DEFAULT_PAGE_SIZE;
@@ -29,7 +30,7 @@ public abstract class DataManager<T> {
 
     public void load() {
         if (!loading.get()) {
-            results.clear();
+            items.clear();
             loadMore();
         }
     }
@@ -37,14 +38,14 @@ public abstract class DataManager<T> {
     public void loadMore() {
         if (!loading.get()) {
             setIsLoading(true);
-            doLoad(pageSize, results.size())
-                    .subscribeOn( Schedulers.io())
-                    .observeOn( AndroidSchedulers.mainThread())
+            doLoad(pageSize, items.size())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .doOnError(error -> setIsLoading(false))
                     .subscribe(
                             list -> {
                                 if (!list.isEmpty()) {
-                                    results.addAll(list);
+                                    items.addAll(list);
                                 }
                                 setIsLoading(false);
                             },
@@ -68,6 +69,23 @@ public abstract class DataManager<T> {
     }
 
     public ObservableList<T> getItems() {
-        return results;
+        return items;
+    }
+
+    @Nullable
+    public T getItem(int index) {
+        T item = null;
+        if (items.size() > index) {
+            item = items.get(index);
+        }
+        return item;
+    }
+
+    public boolean hasItems() {
+        return !items.isEmpty();
+    }
+
+    public int numItems() {
+        return items.size();
     }
 }

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:onViewAttachedToWindow="@{vm::onViewAttachedToWindow}"
         android:onViewDetachedFromWindow="@{vm::onViewDetachedFromWindow}"
-        android:onClick="@{vm.onClick}"
+        app:onClick="@{vm::selectItem}"
         >
 
         <View

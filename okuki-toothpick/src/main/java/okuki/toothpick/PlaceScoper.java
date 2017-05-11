@@ -51,8 +51,15 @@ public class PlaceScoper extends GlobalListener {
     }
 
     public void inject(Object obj) {
-        Scope scope = (currentPlace == null) ? Toothpick.openScope(okuki) : openPlaceScope(currentPlace.getClass());
-        Toothpick.inject(obj, scope);
+        Toothpick.inject(obj, getScope());
+    }
+
+    public <T> T getInstance(Class<T> clazz) {
+        return getScope().getInstance(clazz);
+    }
+
+    private Scope getScope(){
+        return (currentPlace == null) ? Toothpick.openScope(okuki) : openPlaceScope(currentPlace.getClass());
     }
 
     @Override

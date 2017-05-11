@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import okhttp3.OkHttpClient;
 import okuki.sample.mvvm.common.api.google.search.CustomSearch;
 import okuki.sample.mvvm.common.api.swapi.Swapi;
+import okuki.sample.mvvm.swapi.list.SwapiListDataManager;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
@@ -28,6 +29,7 @@ public class SwapiModule extends Module {
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .build();
         bind(CustomSearch.class).toInstance(searchRetrofit.create(CustomSearch.class));
+        bind(SwapiListDataManager.class).singletonInScope();
     }
 
 }

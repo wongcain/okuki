@@ -1,19 +1,28 @@
 package okuki.sample.mvvm.swapi.list;
 
-import okuki.Place;
 import okuki.PlaceConfig;
+import okuki.SimplePlace;
 import okuki.sample.mvvm.R;
-import okuki.sample.mvvm.common.api.swapi.SwapiItem;
-import okuki.sample.mvvm.common.api.swapi.SwapiItem.Type;
-import okuki.sample.mvvm.common.mvvm.ComponentConfig;
+import okuki.sample.mvvm.common.mvvm.MvvmComponent;
+import okuki.sample.mvvm.common.mvvm.ViewModel;
 import okuki.sample.mvvm.swapi.SwapiPlace;
 
 @PlaceConfig(parent = SwapiPlace.class)
-@ComponentConfig(layoutResId = R.layout.swapi_list, viewModelClass = SwapiListViewModel.class)
-public class SwapiListPlace extends Place<SwapiItem.Type> {
+public class SwapiListPlace extends SimplePlace implements MvvmComponent {
 
-    public SwapiListPlace( Type data ) {
-        super( data );
+    @Override
+    public String getTag() {
+        return SwapiListPlace.class.getName();
+    }
+
+    @Override
+    public int getLayoutResId() {
+        return R.layout.swapi_list;
+    }
+
+    @Override
+    public ViewModel getViewModel() {
+        return new SwapiListViewModel();
     }
 
 }

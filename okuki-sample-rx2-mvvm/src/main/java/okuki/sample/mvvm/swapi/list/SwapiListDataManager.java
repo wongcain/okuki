@@ -1,5 +1,6 @@
 package okuki.sample.mvvm.swapi.list;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -19,11 +20,11 @@ public class SwapiListDataManager extends DataManager<SwapiListItemViewModel> {
     @Inject
     Swapi swapi;
 
-    private SwapiItem.Type swapiItemType = Type.values()[0];
+    private SwapiItem.Type swapiItemType = null;
     private String nextPageUrl = null;
 
     @Override
-    protected Observable<List<SwapiListItemViewModel>> doLoad(int limitIgnored, int offset ) {
+    protected Observable<List<SwapiListItemViewModel>> doLoad(int limitIgnored, int offset) {
         Observable<Page<SwapiItem>> pageObs = (offset == 0)
                 ? swapi.getItems(swapiItemType)
                 : swapi.getItems(nextPageUrl);
@@ -31,21 +32,27 @@ public class SwapiListDataManager extends DataManager<SwapiListItemViewModel> {
                 .doOnNext(page -> nextPageUrl = page.next())
                 .map(page -> {
                     List<SwapiListItemViewModel> list = new ArrayList<>();
-                    for(SwapiItem item: page.results()){
+                    for (SwapiItem item : page.results()) {
                         list.add(new SwapiListItemViewModel(item));
                     }
                     return list;
                 });
     }
 
-    public void setSwapiItemType( Type swapiItemType ) {
-        this.swapiItemType = swapiItemType;
-        nextPageUrl = null;
-        load();
+    public void setSwapiItemType(@NonNull Type swapiItemType) {
+        if (!swapiItemType.equals(this.swapiItemType)) {
+            this.swapiItemType = swapiItemType;
+            nextPageUrl = null;
+            load();
+        }
     }
 
-    public boolean hasMore(){
+    public boolean hasMore() {
         return !TextUtils.isEmpty(nextPageUrl);
+    }
+
+    public Type getSwapiItemType() {
+        return swapiItemType;
     }
 
 }

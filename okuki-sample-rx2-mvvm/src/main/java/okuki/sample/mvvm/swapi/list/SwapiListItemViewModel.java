@@ -1,7 +1,6 @@
 package okuki.sample.mvvm.swapi.list;
 
 import android.databinding.ObservableField;
-import android.view.View;
 
 import javax.inject.Inject;
 
@@ -21,7 +20,7 @@ public class SwapiListItemViewModel extends BaseViewModel {
         name.set(swapiItem.name());
     }
 
-    public void onClick(View view) {
+    public void selectItem() {
         okuki.gotoPlace(new SwapiImagePlace(name.get()));
     }
 
