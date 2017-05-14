@@ -1,4 +1,4 @@
-## Release version 0.3.0 (May 15, 2017)
+## Release version 0.3.1 (May 15, 2017)
 * RxJava 2 support via `okuki-rx2`
 * New sample app demostrating Rx2 and MVVM
 * `getInstance(Class clazz)` added to `PlaceScoper`
