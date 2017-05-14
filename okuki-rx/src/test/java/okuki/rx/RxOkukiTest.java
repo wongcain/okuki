@@ -10,6 +10,7 @@ import okuki.GlobalListener;
 import okuki.Okuki;
 import okuki.Place;
 import okuki.PlaceListener;
+import okuki.SimplePlace;
 import rx.observers.TestSubscriber;
 
 import static org.mockito.Matchers.isA;
@@ -37,7 +38,7 @@ public class RxOkukiTest {
     @Test
     public void testPlaceSubscription() throws Exception {
         TestSubscriber<Place> testObserver = TestSubscriber.create();
-        RxOkuki.onPlace(okuki, Place.class).subscribe(testObserver);
+        RxOkuki.onPlace(okuki, TestPlace.class).subscribe(testObserver);
         verify(okuki).addPlaceListener(isA(PlaceListener.class));
         testObserver.unsubscribe();
         verify(okuki).removePlaceListener(isA(PlaceListener.class));
@@ -46,11 +47,14 @@ public class RxOkukiTest {
     @Test
     public void testBranchSubscription() throws Exception {
         TestSubscriber<Place> testObserver = TestSubscriber.create();
-        RxOkuki.onBranch(okuki, Place.class).subscribe(testObserver);
+        RxOkuki.onBranch(okuki, TestPlace.class).subscribe(testObserver);
         verify(okuki).addBranchListener(isA(BranchListener.class));
         testObserver.unsubscribe();
         verify(okuki).removeBranchListener(isA(BranchListener.class));
     }
 
+
+    static class TestPlace extends SimplePlace {
+    }
 
 }

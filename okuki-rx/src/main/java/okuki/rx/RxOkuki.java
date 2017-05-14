@@ -14,13 +14,12 @@ public class RxOkuki {
         return Observable.create(new OnGlobalPlaceOnSubscribe(okuki));
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T extends Place> Observable<T> onPlace(Okuki okuki, Class<T> clazz) {
-        return Observable.create(new OnPlaceOnSubscribe(okuki, clazz));
+    public static <P extends Place> Observable<P> onPlace(Okuki okuki, Class<P> clazz) {
+        return Observable.create(new OnPlaceOnSubscribe<>(okuki, clazz));
     }
 
-    public static Observable<Place> onBranch(Okuki okuki, Class<? extends Place> clazz) {
-        return Observable.create(new OnBranchOnSubscribe(okuki, clazz));
+    public static <B extends Place> Observable<Place> onBranch(Okuki okuki, Class<B> clazz) {
+        return Observable.create(new OnBranchOnSubscribe<>(okuki, clazz));
     }
 
 }
