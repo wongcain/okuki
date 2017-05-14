@@ -27,7 +27,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.2.5'
     compile 'com.cainwong.okuki:okuki-rx:0.3.1'
     
-    // OR for RxJava 2.x Bindings
+    // -OR- for RxJava 2.x Bindings
     compile 'io.reactivex.rxjava2:rxjava:2.0.2'
     compile 'com.cainwong.okuki:okuki-rx2:0.3.1'
  
@@ -36,7 +36,7 @@ dependencies {
  
     // For Toothpick integration
     compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.5'
-    compile 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.5'
+    annotationProcessor 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.5'
     compile 'com.cainwong.okuki:okuki-toothpick:0.3.0'
 }
 ```
