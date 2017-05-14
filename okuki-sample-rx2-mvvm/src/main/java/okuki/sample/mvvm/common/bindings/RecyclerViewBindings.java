@@ -16,7 +16,7 @@ public class RecyclerViewBindings {
     public static <T> void setAdapter(RecyclerView recyclerView, OnItemBind<T> onItemBind, List<T> items,
                                       BindingRecyclerViewAdapter<T> adapter, BindingRecyclerViewAdapter.ItemIds<? super T> itemIds,
                                       BindingRecyclerViewAdapter.ViewHolderFactory viewHolderFactory, OnItemBoundHandler<T> onItemBoundHandler) {
-        ItemBinding<T> itemBinding = ((onItemBind!=null) && (onItemBoundHandler!=null))
+        ItemBinding<T> itemBinding = ((onItemBind != null) && (onItemBoundHandler != null))
                 ? ItemBinding.of(new OnItemBindWrapper<>(onItemBind, onItemBoundHandler))
                 : ItemBinding.of(onItemBind);
         BindingRecyclerViewAdapters.setAdapter(recyclerView, itemBinding, items, adapter, itemIds, viewHolderFactory);

@@ -7,7 +7,6 @@ import javax.inject.Inject;
 
 import okuki.Okuki;
 import okuki.sample.mvvm.common.api.google.search.SearchResultItem;
-import okuki.sample.mvvm.common.bindings.ViewBindings;
 import okuki.sample.mvvm.common.mvvm.BaseViewModel;
 
 

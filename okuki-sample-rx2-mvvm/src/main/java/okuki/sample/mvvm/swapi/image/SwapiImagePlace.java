@@ -15,11 +15,6 @@ public class SwapiImagePlace extends Place<String> implements MvvmComponent {
     }
 
     @Override
-    public String getTag() {
-        return SwapiImagePlace.class.getName();
-    }
-
-    @Override
     public int getLayoutResId() {
         return R.layout.swapi_image;
     }

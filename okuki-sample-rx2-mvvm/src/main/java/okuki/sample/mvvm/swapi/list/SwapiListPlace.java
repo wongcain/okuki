@@ -11,11 +11,6 @@ import okuki.sample.mvvm.swapi.SwapiPlace;
 public class SwapiListPlace extends SimplePlace implements MvvmComponent {
 
     @Override
-    public String getTag() {
-        return SwapiListPlace.class.getName();
-    }
-
-    @Override
     public int getLayoutResId() {
         return R.layout.swapi_list;
     }

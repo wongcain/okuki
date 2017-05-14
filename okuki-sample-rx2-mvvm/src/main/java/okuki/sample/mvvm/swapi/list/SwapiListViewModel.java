@@ -38,7 +38,7 @@ public class SwapiListViewModel extends BaseViewModel {
     }
 
     public void onItemBound(int position) {
-        if(isHalfPageLeft(position)) swapiListDataManager.loadMore();
+        if (isHalfPageLeft(position)) swapiListDataManager.loadMore();
     }
 
     private boolean isHalfPageLeft(int position) {
@@ -63,7 +63,7 @@ public class SwapiListViewModel extends BaseViewModel {
 
 
     /* Because of 2-way binding on selectedItemTypeIndex, we need to wait until the value is set via
-       the initial binding before we set the value from the saved state in swapiListDataManager.
+       the initial binding before potentially restoring the saved ItemType from swapiListDataManager.
      */
     private AtomicBoolean isInitialized = new AtomicBoolean();
 
