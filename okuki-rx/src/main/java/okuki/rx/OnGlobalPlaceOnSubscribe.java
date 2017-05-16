@@ -9,7 +9,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 
-public class OnGlobalPlaceOnSubscribe implements Observable.OnSubscribe<Place> {
+final class OnGlobalPlaceOnSubscribe implements Observable.OnSubscribe<Place> {
 
     private final Okuki okuki;
 

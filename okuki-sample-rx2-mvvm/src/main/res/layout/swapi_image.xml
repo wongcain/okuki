@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="okuki.sample.mvvm.swapi.image.SwapiImageViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onViewAttachedToWindow="@{vm::onViewAttachedToWindow}"
+        android:onViewDetachedFromWindow="@{vm::onViewDetachedFromWindow}"
+        >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margins"
+                android:src="@drawable/ic_chevron_left_accent_48dp"
+                app:onClick="@{vm::prev}"
+                app:isInvisible="@{!vm.hasPrev}"
+                />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:actualImageScaleType="fitCenter"
+                app:onClick="@{vm::next}"
+                app:imageUrl="@{vm.imageUrl}"
+                app:loResImageUrl="@{vm.loResImageUrl}"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margins"
+                android:src="@drawable/ic_chevron_right_accent_48dp"
+                app:onClick="@{vm::next}"
+                app:isInvisible="@{!vm.hasNext}"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</layout>

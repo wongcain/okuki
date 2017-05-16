@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="margins">16dp</dimen>
+    <dimen name="half_margins">8dp</dimen>
+    <dimen name="select_width">120dp</dimen>
+</resources>

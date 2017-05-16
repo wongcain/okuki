@@ -1,3 +1,9 @@
+## Release version 0.3.1 (May 15, 2017)
+* RxJava 2 support via `okuki-rx2`
+* New sample app demostrating Rx2 and MVVM
+* `getInstance(Class clazz)` added to `PlaceScoper`
+* Improved generics usage
+
 ## Release version 0.2.0 (Mar 09, 2017)
 * Toothpick integration refactoring
 * Toothpick auto-scoping

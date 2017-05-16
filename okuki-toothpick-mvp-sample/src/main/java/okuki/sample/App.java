@@ -11,7 +11,6 @@ import okuki.android.OkukiState;
 import okuki.sample.common.lifecycle.RxActivityLifecycleCallbacks;
 import okuki.sample.common.network.NetworkModule;
 import okuki.toothpick.PlaceScoper;
-import rx.Observable;
 import timber.log.Timber;
 import toothpick.smoothie.module.SmoothieApplicationModule;
 

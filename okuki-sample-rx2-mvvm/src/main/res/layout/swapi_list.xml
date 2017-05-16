@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers"/>
+
+        <variable
+            name="vm"
+            type="okuki.sample.mvvm.swapi.list.SwapiListViewModel"/>
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onViewAttachedToWindow="@{vm::onViewAttachedToWindow}"
+        android:onViewDetachedFromWindow="@{vm::onViewDetachedFromWindow}"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/item_type_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margins"
+            android:layout_marginTop="@dimen/margins"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/item_type_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@string/select"
+                android:textColor="@color/colorAccent"/>
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/item_type_selector"
+                android:layout_width="@dimen/select_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:entries="@{vm.itemTypes}"
+                android:selectedItemPosition="@={vm.selectedItemTypeIndex}"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/swapi_list_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_type_row"
+            android:layout_marginTop="@dimen/margins"
+            app:itemBinding="@{vm.itemBinding}"
+            app:items="@{vm.items}"
+            app:onItemBound="@{vm::onItemBound}"
+            app:layoutManager="@{LayoutManagers.linear()}"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/swapi_list_recycler"
+            android:layout_centerHorizontal="true"
+            app:isGone="@{!vm.loading}"
+            />
+
+    </RelativeLayout>
+</layout>

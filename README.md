@@ -7,8 +7,9 @@ and Toothpick integration for automatic dependency-scope management.
 * [Simple Example](https://github.com/wongcain/okuki/tree/master/okuki-sample): Demonstrates basic
 usage in a simple Android project, without use of the optional Rx and Toothpick integrations.
 * [MVP Example](https://github.com/wongcain/okuki/tree/master/okuki-toothpick-mvp-sample): Demonstrates
-Okuki's full capabilities using Rx, Toothpick, and Parcelable-State save/restore. It also implements 
+Okuki's full capabilities using RxJava 1.x, Toothpick, and Parcelable-State save/restore. It also implements 
 an Okuki-centric approach to the MVP (Model-View-Presenter) design pattern.
+* [MVVM Example](https://github.com/wongcain/okuki/tree/master/okuki-sample-rx2-mvvm): Another full-featured demonstration, this time using RxJava 2.x and MVVM pattern with Android Data Binding.
 
 ## Setup
 Gradle:
@@ -20,19 +21,23 @@ repositories {
 ...
 
 dependencies {
-    compile 'com.cainwong.okuki:okuki:0.2.0'
+    compile 'com.cainwong.okuki:okuki:0.3.1'
      
-    // for RxBindings
+    // For RxJava 1.x Bindings
     compile 'io.reactivex:rxjava:1.2.5'
-    compile 'com.cainwong.okuki:okuki-rx:0.2.0'
+    compile 'com.cainwong.okuki:okuki-rx:0.3.1'
+    
+    // -OR- for RxJava 2.x Bindings
+    compile 'io.reactivex.rxjava2:rxjava:2.0.2'
+    compile 'com.cainwong.okuki:okuki-rx2:0.3.1'
  
-    // for Android Parcelable State Save/Restore
-    compile 'com.cainwong.okuki:okuki-android:0.2.0'
+    // For Android Parcelable State Save/Restore
+    compile 'com.cainwong.okuki:okuki-android:0.3.1'
  
-    // for Toothpick integration
+    // For Toothpick integration
     compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.5'
-    compile 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.5'
-    compile 'com.cainwong.okuki:okuki-toothpick:0.2.0'
+    annotationProcessor 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.5'
+    compile 'com.cainwong.okuki:okuki-toothpick:0.3.0'
 }
 ```
 
@@ -189,9 +194,8 @@ follows via the method `okuki.gotoPlace(Place place, HistoryAction historyAction
 Okuki is single-threaded (i.e. _NOT_ thread-safe). The reason for this is that it is designed for 
 communicating UI changes and is intended to be run on a single thread (the Android Main/UI Thread).
 
-## Rx Bindings (RxJava 1.x)
-RxBindings are provided in the optional package `okuki.rx`. Using these bindings simplifies use of
-Okuki as you no longer need to manage instances of the various `Listener` classes. Simply subscribe
+## Rx Bindings
+RxBindings are provided in the optional package `okuki.rx` for RxJava 1.x, and `okuki.rx2` for RxJava 2.x. Using these bindings simplifies use of Okuki as you no longer need to manage instances of the various `Listener` classes. Simply subscribe
 and unsubscribe like this:
 ```
 Subscription globalSub = RxOkuki.onAnyPlace(okuki).subscribe(place -> logPlace(place));
@@ -202,7 +206,6 @@ subscription.unsubscribe(globalSub);
 subscription.unsubscribe(branchSub);
 subscription.unsubscribe(placeSub);
 ```
-#### _RxJava 2.0 coming soon..._
 
 ## Saving and Restoring State (_Android Only_)
 The optional Okuki-Android package provides a mechanism for saving and restoring the state of an 
@@ -252,9 +255,7 @@ APP_INSTANCE.placeScoper.inject(obj);
 ```
 
 
-To best understand how Okuki and Toothpick work together, see the
-[MVP Example](https://github.com/wongcain/okuki/tree/master/okuki-toothpick-mvp-sample).
+To best understand how Okuki and Toothpick work together, see the [MVP Example](https://github.com/wongcain/okuki/tree/master/okuki-toothpick-mvp-sample).
 
-For more information about using the wonderful Toothpick library, please its
-[Github repository](https://github.com/stephanenicolas/toothpick) and the thorough documentation on
+For more information about using the wonderful Toothpick library, please its [Github repository](https://github.com/stephanenicolas/toothpick) and the thorough documentation on
 the wiki there.

@@ -27,9 +27,7 @@ public class MainPresenter extends Presenter<MainPresenter.Vu> {
         addSubscriptions(
                 RxOkuki.onAnyPlace(okuki).subscribe(place -> Timber.d("PLACE EVENT: " + place), Errors.log()),
 
-                // TODO consolidate filter/doOnNext somehow
                 RxOkuki.onBranch(okuki, WelcomePlace.class)
-                        .distinct()
                         .filter(stateChangeHelper.onlyNewFilter(WelcomePlace.class))
                         .subscribe(place -> getVu().loadWelcome(), Errors.log()),
 
