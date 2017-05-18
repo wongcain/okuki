@@ -20,7 +20,7 @@ public class SimpleDraweeViewBindings {
         throw new AssertionError("No instances.");
     }
 
-    @BindingAdapter({"imageUrl", "loResImageUrl"})
+    @BindingAdapter(value = {"imageUrl", "loResImageUrl"}, requireAll = false)
     public static void loadImage(final SimpleDraweeView view, String imageUrl, String loResImageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
             ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {

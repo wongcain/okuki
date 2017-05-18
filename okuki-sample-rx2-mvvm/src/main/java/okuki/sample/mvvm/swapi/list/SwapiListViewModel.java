@@ -31,8 +31,6 @@ public class SwapiListViewModel extends BaseViewModel {
 
     public final ObservableBoolean loading = new ObservableBoolean();
 
-    public final SwapiListItemBinding itemBinding = new SwapiListItemBinding();
-
     public ObservableList<SwapiListItemViewModel> items() {
         return swapiListDataManager.getItems();
     }

@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         ViewDataBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         vm = new MainViewModel();
         binding.setVariable(BR.vm, vm);
-        vm.onAttach();
+        binding.executePendingBindings();
     }
 
     @Override

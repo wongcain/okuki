@@ -5,6 +5,7 @@
     <data>
 
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers"/>
+        <import type="okuki.sample.mvvm.swapi.list.SwapiListItemBinding"/>
 
         <variable
             name="vm"
@@ -12,6 +13,7 @@
     </data>
 
 
+    <!--suppress AndroidUnknownAttribute -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,6 +38,7 @@
                 android:text="@string/select"
                 android:textColor="@color/colorAccent"/>
 
+            <!--suppress AndroidUnknownAttribute -->
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/item_type_selector"
                 android:layout_width="@dimen/select_width"
@@ -52,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/item_type_row"
             android:layout_marginTop="@dimen/margins"
-            app:itemBinding="@{vm.itemBinding}"
+            app:itemBinding="@{SwapiListItemBinding.get()}"
             app:items="@{vm.items}"
             app:onItemBound="@{vm::onItemBound}"
             app:layoutManager="@{LayoutManagers.linear()}"/>

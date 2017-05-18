@@ -9,6 +9,7 @@
     </data>
 
 
+    <!--suppress AndroidUnknownAttribute -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
