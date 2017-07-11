@@ -13,12 +13,12 @@ an Okuki-centric approach to the MVP (Model-View-Presenter) design pattern.
 
 ## Setup
 Gradle:
-```
+``` groovy
 repositories {
     jcenter()
 }
 
-...
+// ...
 
 dependencies {
     compile 'com.cainwong.okuki:okuki:0.3.1'
@@ -66,7 +66,7 @@ All Places are hierarchical. By default, each Place sits at the root-level of th
 Places can be nested in a hierarchy by annotating them with `@PlaceConfig` and setting the
 `parent` parameter.
 
-```
+``` java
 @PlaceConfig(parent = ContactsPlace.class)
 public class ContactDetailsPlace extends Place<Integer> {
 
@@ -89,7 +89,7 @@ PlaceListeners receive only Places only of a specified type.  The type is specif
 attribute `P` in `PlaceListener<P extends Place>`.
 
 The following listener would receive only instances of `ContactDetailsPlace`:
-```
+``` java
 PlaceListener<ContactDetailsPlace> contactDetailsPlaceListener = new PlaceListener<ContactDetailsPlace>{
     @Override
     public void onPlace(ContactDetailsPlace place) {
@@ -105,7 +105,7 @@ BranchListeners also receive Places of a specified type, but also receive any Pl
 _descendant_ of the specified type. So given the classes defined in the _Place Hierarchy_ section
 above, the following code would listen for Place requests for `ContactsPlace` and `ContactDetailsPlace`,
 as well as any other _descendents_ of these classes:
-```
+``` java
 BranchListener contactsBranchListener = new BranchListener<ContactsPlace>() {
    @Override
    public void onPlace(Place place) {
@@ -119,7 +119,7 @@ okuki.addBranchListener(contactsBranchListener);
 A registered `GlobalListener` will receive all Places that are requested, regardless of type or
 hierarchy. One simple use-case for such a listener would be a logging mechanism that reports all
 requested Places for the purpose of debugging.
-```
+``` java
 GlobalListener logListener = new GlobalListener(){
    @Override
    public void onPlace(Place place) {
@@ -132,11 +132,11 @@ okuki.addGlobalListener(logListener);
 ### Removing Listeners
 Okuki keeps strong references to registered Listeners, so be sure the unregister them as appropriate
 for your application lifecyle.
-```
+``` java
 okuki.removePlaceListener(contactDetailsPlaceListener);
-...
+// ...
 okuki.removeBranchListener(contactsBranchListener);
-...
+// ...
 okuki.removeGlobalListener(logListener);
 
 ```
@@ -197,11 +197,11 @@ communicating UI changes and is intended to be run on a single thread (the Andro
 ## Rx Bindings
 RxBindings are provided in the optional package `okuki.rx` for RxJava 1.x, and `okuki.rx2` for RxJava 2.x. Using these bindings simplifies use of Okuki as you no longer need to manage instances of the various `Listener` classes. Simply subscribe
 and unsubscribe like this:
-```
+``` java
 Subscription globalSub = RxOkuki.onAnyPlace(okuki).subscribe(place -> logPlace(place));
 Subscription branchSub = RxOkuki.onBranch(okuki, ContactsPlace.class).subscribe(place -> gotoContacts());
 Subscription placeSub = RxOkuki.onPlace(okuki, ContactsPlace.class).subscribe(place -> dislayContact(place.getData()));
-...
+// ...
 subscription.unsubscribe(globalSub);
 subscription.unsubscribe(branchSub);
 subscription.unsubscribe(placeSub);
@@ -235,13 +235,13 @@ Do the following to enable the Toothpick integration:
 * Add the dependencies for both Toothpick and Okuki-Toothpick. (See _Setup_ above.)
 * Create a `PlaceScoper` instance for your Okuki instance using its `Builder`, also specifying any 
 Modules that you like to configure dependencies that should be available globally:
-```
+``` java
 placeScoper = new PlaceScoper.Builder().okuki(okuki).modules(new AppModule(), new NetworkModule()).build();
 ```
 * Use the `@ScopeConfig` annotation on `Place` classes to define additional Modules that should 
 apply only to the respective portion of the hierachy defined by the Place. (These modules will 
 themselves automatically receive any injections available from their parent scope.):
-```
+``` java
 @ScopeConfig(modules = KittensModule.class)
 public class KittensPlace extends SimplePlace {
     public KittensPlace() {
@@ -250,7 +250,7 @@ public class KittensPlace extends SimplePlace {
 ```
 * Use your instance of `PlaceScoper` to perform all of your injections across your application. 
 (Do do so you'll need provide some kind of static accessor to your `PlaceScoper` instance.):
-```
+``` java
 APP_INSTANCE.placeScoper.inject(obj);
 ```
 
